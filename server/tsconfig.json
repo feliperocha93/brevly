@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Node 23",
+  "_version": "23.0.0",
+  "compilerOptions": {
+    "lib": [
+      "ES2024"
+    ],
+    "module": "NodeNext",
+    "target": "ES2024",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "nodenext"
+  },
+}
