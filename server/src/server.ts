@@ -29,6 +29,6 @@ app.register(scalarUI, {
   routePrefix: "/docs",
 })
 
-app.listen({ port: 3333 }).then((address) => {
+app.listen({ port: 3333, host: '0.0.0.0' }).then((address) => {
   console.log(`Server listening at ${address}`);
 });

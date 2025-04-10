@@ -1,5 +1,8 @@
+dist
 node_modules
-.env
+
 
 # Migration metadata
 src/db/migrations/meta/
+
+.env
