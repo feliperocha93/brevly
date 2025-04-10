@@ -7,12 +7,17 @@
       "ES2024"
     ],
     "module": "NodeNext",
-    "target": "ES2024",
+    "target": "ESNext",
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
 }
