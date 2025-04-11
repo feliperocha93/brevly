@@ -9,4 +9,4 @@ const envSchema = z.object({
     DATABASE_URL: z.string().url().startsWith('postgresql://'),
 })
 
-export const env = envSchema.parse(process.env)
+export const env = envSchema.parse(process.env);
