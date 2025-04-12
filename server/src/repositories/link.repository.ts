@@ -1,11 +1,17 @@
-import { db } from '@/db/index.ts'
-import { schema } from '@/db/schemas/index.ts'
-import { ilike } from 'drizzle-orm'
+import { db } from '../db/index.ts'
+import { schema } from '../db/schemas/index.ts'
+import { eq } from 'drizzle-orm'
 
-export async function findByShortenedUrl(shortUrl: string) {
-    return db.select().from(schema.links).where(ilike(schema.links.shortenedUrl, shortUrl)).limit(1)
+export async function findByShortUrl(shortUrl: string): Promise<LinkModel | undefined> {
+    return db.query.links.findFirst({
+        where: eq(schema.links.shortUrl, shortUrl)
+    })
 }
 
-export async function insertLink(originalUrl: string, shortenedUrl: string) {
-    return db.insert(schema.links).values({ originalUrl, shortenedUrl })
+export async function insertLink(
+    originalUrl: string,
+    shortUrl: string
+): Promise<LinkModel> {
+    const result = await db.insert(schema.links).values({ originalUrl, shortUrl }).returning()
+    return result[0]
 }
