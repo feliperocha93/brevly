@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll, afterEach, vi } from 'vitest'
-import { app } from '../server.ts'
+import { app } from '@/server.ts'
 import { db } from '@/db/index.ts'
 import { schema } from '@/db/schemas/index.ts'
 
