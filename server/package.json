@@ -8,7 +8,7 @@
     "node": ">=23.0.0"
   },
   "scripts": {
-    "dev": "node --experimental-strip-types --watch --no-warnings --env-file .env src/server.ts",
+    "dev": "node --experimental-strip-types --watch --no-warnings --env-file .env src/start.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:migrate:test": "dotenv -e .env.test drizzle-kit migrate",

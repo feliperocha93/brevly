@@ -1,28 +1,29 @@
 import { z } from "zod"
-import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
-import { createShortLink } from "../services/link.service.ts";
 import { isRight, unwrapEither } from "../shared/either.ts";
+import * as service from "../services/link.service.ts";
 
-const createLinkInputSchema = z.object({
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
+
+const storeLinkInputSchema = z.object({
   originalUrl: z.string().url(),
   shortUrlPath: z.string().min(1).max(20),
 })
 
-const createLinkOutputSchema = z.object({
+const storeLinkOutputSchema = z.object({
   id: z.string().uuid(),
   originalUrl: z.string().url(),
   shortUrl: z.string().url(),
 })
 
-export const CreateLinkRoute: FastifyPluginAsyncZod = async (app) => {
+export const store: FastifyPluginAsyncZod = async (app) => {
   app.post(
     '/link',
     {
       schema: {
         summary: 'Create a new link',
-        body: createLinkInputSchema,
+        body: storeLinkInputSchema,
         response: {
-          201: createLinkOutputSchema,
+          201: storeLinkOutputSchema,
           400: z.object({
             message: z.string(),
             issues: z.array(z.any()),
@@ -34,9 +35,9 @@ export const CreateLinkRoute: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (request, reply) => {
-      const { originalUrl, shortUrlPath } = createLinkInputSchema.parse(request.body);
+      const { originalUrl, shortUrlPath } = storeLinkInputSchema.parse(request.body);
 
-      const result = await createShortLink({
+      const result = await service.create({
         originalUrl,
         shortUrlPath,
       });

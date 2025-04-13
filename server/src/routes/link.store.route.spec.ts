@@ -1,19 +1,7 @@
-import { describe, it, expect, beforeAll, afterAll, afterEach, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { app } from '../server.ts'
-import { db } from '@/db/index.ts'
-import { schema } from '@/db/schemas/index.ts'
-
-beforeAll(async () => {
-    await app.ready()
-})
-
-afterEach(async () => {
-    await db.delete(schema.links);
-})
-
-afterAll(async () => {
-    await app.close()
-})
+import { db } from '../db/index.ts'
+import { schema } from '../db/schemas/index.ts'
 
 describe('Link routes', () => {
     it('should create a short link', async () => {
@@ -95,16 +83,16 @@ describe('Link routes', () => {
 
     it('should return a conflict error when short url already exists', async () => {
         await db.insert(schema.links).values({
-            originalUrl: 'https://example.com',
-            shortUrl: 'https://brev.ly/example' // Assuming the domain is the same
+            originalUrl: 'https://google.com',
+            shortUrl: 'https://brev.ly/google' // Assuming the domain is the same
         })
 
         const response = await app.inject({
             method: 'POST',
             url: '/link',
             payload: {
-                originalUrl: 'https://example.com',
-                shortUrlPath: 'example'
+                originalUrl: 'https://google.com',
+                shortUrlPath: 'google'
             }
         })
 
