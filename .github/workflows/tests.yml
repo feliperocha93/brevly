@@ -1,0 +1,67 @@
+name: "[server]: tests"
+
+on:
+  pull_request:
+    branches:
+      - master
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'server/**'
+      - '.github/workflows/tests.yml'
+
+# obter do .env.test
+env:
+  POSTGRES_USER: root
+  POSTGRES_PASSWORD: root
+  POSTGRES_DB: brevly_test
+  app_dir: server
+
+jobs:
+  tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        id: install-pnpm
+        uses: pnpm/action-setup@v4
+
+        with:
+          version: 10.7.1
+          run_install: false
+          package_json_file: server/package.json
+
+      - name: Setup Node.js
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: 'pnpm'
+          cache-dependency-path: server/pnpm-lock.yaml
+
+      - name: Install dependencies
+        working-directory: ${{ env.app_dir }}
+        run: pnpm install
+
+      - name: Run tests
+        working-directory: ./server
+        run: pnpm test
