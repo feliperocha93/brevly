@@ -1,33 +1,54 @@
-name: Tests
+name: "[server]: tests"
 
 on:
+  push:
+    paths:
+      - 'server/**'
+      - '.github/workflows/tests.yml'
   pull_request:
     branches:
       - master
-    types: [opened, reopened, labeled, unlabeled, synchronize]
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'server/**'
+      - '.github/workflows/tests.yml'
 
+# obter do .env.test
+env:
+  POSTGRES_USER: root
+  POSTGRES_PASSWORD: root
+  POSTGRES_DB: brevly_test
 
 jobs:
-  run-ci:
-    name: Run E2E Tests
+  tests:
+    name: Run Tests
     runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres:13
+        image: postgres:latest
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: root # Obter do ponto env
-          POSTGRES_PASSWORD: root
-          POSTGRES_DB: brevly_test
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
 
-      - run: cd server && npm install -g pnpm
-      - run: cd server && pnpm install
-      - run: cd server && pnpm run test
+      - name: Run tests
+        working-directory: ./server
+        run: pnpm test
