@@ -1,9 +1,10 @@
+import fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
-import fastify from "fastify";
 import scalarUI from "@scalar/fastify-api-reference"
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform, hasZodFastifySchemaValidationErrors } from 'fastify-type-provider-zod'
-import { CreateLinkRoute } from "./routes/link.route.ts";
+
+import { linkRoute } from "./routes/link.index.ts";
 
 export const app = fastify({
   logger: {
@@ -51,11 +52,9 @@ app.register(fastifySwagger, {
   transform: jsonSchemaTransform,
 });
 
-app.register(CreateLinkRoute)
+app.register(linkRoute.store)
+app.register(linkRoute.index)
 
 app.register(scalarUI, {
   routePrefix: "/docs",
-  logLevel: "info", // workaround to keep
 });
-
-app.listen({ port: 3333, host: '0.0.0.0' });
