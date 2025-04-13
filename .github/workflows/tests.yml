@@ -28,7 +28,6 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
 
-      - run: cd server
-      - run: npm run install pnpm
-      - run: pnpm install
-      - run: pnmp run test
+      - run: cd server && npm install -g pnpm
+      - run: cd server && pnpm install
+      - run: cd server && pnpm run test
