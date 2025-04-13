@@ -14,6 +14,7 @@ env:
   POSTGRES_USER: root
   POSTGRES_PASSWORD: root
   POSTGRES_DB: brevly_test
+  app_dir: server
 
 jobs:
   tests:
@@ -58,5 +59,9 @@ jobs:
           cache-dependency-path: server/pnpm-lock.yaml
 
       - name: Install dependencies
-        working-directory: server
+        working-directory: ${{ env.app_dir }}
         run: pnpm install
+
+      - name: Run tests
+        working-directory: ./server
+        run: pnpm test
