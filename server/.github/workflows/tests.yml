@@ -1,0 +1,36 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - master
+    types: [opened, reopened, labeled, unlabeled, synchronize]
+
+
+jobs:
+  run-ci:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: root # Obter do ponto env
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: brevly_test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23.11.0
+          cache: 'npm'
+
+      - run: npm run install pnpm
+      - run: pnpm install
+      - run: pnmp run test
