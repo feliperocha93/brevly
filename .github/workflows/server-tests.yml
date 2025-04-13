@@ -7,7 +7,7 @@ on:
     types: [opened, reopened, synchronize]
     paths:
       - 'server/**'
-      - '.github/workflows/tests.yml'
+      - '.github/workflows/server-tests.yml'
 
 # obter do .env.test
 env:
@@ -18,7 +18,7 @@ env:
 
 jobs:
   tests:
-    name: Run Tests
+    name: Server tests
     runs-on: ubuntu-latest
 
     services:

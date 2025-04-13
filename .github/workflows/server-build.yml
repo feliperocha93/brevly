@@ -1,0 +1,64 @@
+name: "[server]: build"
+
+on:
+    push:
+      branches:
+        - master
+      paths:
+        - 'server/**'
+        - '.github/workflows/server-build.yml'
+
+env:
+  app_dir: server
+
+jobs:
+  tests:
+    name: Build Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        id: install-pnpm
+        uses: pnpm/action-setup@v4
+
+        with:
+          version: 10.7.1
+          run_install: false
+          package_json_file: server/package.json
+
+      - name: Setup Node.js
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: 'pnpm'
+          cache-dependency-path: server/pnpm-lock.yaml
+
+      - name: Install dependencies
+        working-directory: ${{ env.app_dir }}
+        run: pnpm install
+
+      - name: Set up Docker Buildx
+        id: setup-docker-buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Generate tag
+        id: generate-tag
+        run: |
+          SHA=$(echo $GITHUB_SHA | head -c7)
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
+      - name: Build Docker image
+        id: build-image
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ github.workspace }}/${{ env.app_dir }}
+          file: ${{ github.workspace }}/${{ env.app_dir }}/Dockerfile
+          push: false
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: brevly-server:${{ steps.generate-tag.outputs.sha }}
