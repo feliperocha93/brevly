@@ -5,14 +5,15 @@ import scalarUI from "@scalar/fastify-api-reference"
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform, hasZodFastifySchemaValidationErrors } from 'fastify-type-provider-zod'
 
 import { linkRoute } from "./routes/link.index.ts";
+import { env } from "./env.ts";
 
 export const app = fastify({
   logger: {
+    level: env.NODE_ENV === "test" ? "silent" : "trace",
     transport: {
       targets: [
         {
           target: 'pino-pretty',
-          level: 'trace',
           options: {
             colorize: true,
             translateTime: 'yyyy-mm-dd HH:MM:ss Z',
@@ -22,6 +23,7 @@ export const app = fastify({
       ],
     },
   },
+  disableRequestLogging: true,
 });
 
 app.setValidatorCompiler(validatorCompiler);
@@ -30,7 +32,17 @@ app.setSerializerCompiler(serializerCompiler);
 app.setErrorHandler((error, request, reply) => {
   // Erros esperados a aplicação deve tratar
   if (hasZodFastifySchemaValidationErrors(error)) {
-    // app.log.error(error)
+    app.log.warn({
+      request: {
+        method: request.method,
+        url: request.url,
+        body: request.body,
+        query: request.query,
+        params: request.params,
+      },
+      validation: error.validation,
+    }, `${request.url} ${request.method} ${error.statusCode} hasZodFastifySchemaValidationErrors `)
+
     return reply.status(400).send({
       message: 'Validation error',
       issues: error.validation
