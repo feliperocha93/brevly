@@ -3,6 +3,7 @@ import * as service from "../services/link.service.ts";
 import { unwrapEither } from "../shared/either.ts";
 
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
+import { generateLogMessage } from "../shared/logs.ts";
 
 const indexLinkOutputSchema = z.array(
     z.object({
@@ -25,12 +26,13 @@ export const index: FastifyPluginAsyncZod = async (app) => {
                 }
             },
         },
-        async (_request, reply) => {
+        async (request, reply) => {
             const links = await service.list();
 
             const response = unwrapEither(links);
 
-            return reply.status(200).send(response);
+            reply.log.info({ links_listed: response.length }, generateLogMessage(request, 'Links listed successfully', 200));
+            return reply.status(200).send(indexLinkOutputSchema.parse(response));
         }
     )
 }

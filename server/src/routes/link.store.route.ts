@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { isRight, unwrapEither } from "../shared/either.ts";
 import * as service from "../services/link.service.ts";
+import { generateLogMessage } from "../shared/logs.ts";
 
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
 
@@ -44,6 +45,7 @@ export const store: FastifyPluginAsyncZod = async (app) => {
 
       if (isRight(result)) {
         const link = unwrapEither(result);
+        reply.log.info({ link }, generateLogMessage(request, 'Link created successfully', 201));
         return reply.status(201).send(link);
       }
 
@@ -51,6 +53,15 @@ export const store: FastifyPluginAsyncZod = async (app) => {
 
       switch (error.message) {
         case 'Short URL already exists':
+          reply.log.warn({
+            request: {
+              method: request.method,
+              url: request.url,
+              body: request.body,
+              query: request.query,
+              params: request.params,
+            }
+          }, generateLogMessage(request, 'Short URL already exists', 409));
           return reply.status(409).send({
             error: error.message
           });
