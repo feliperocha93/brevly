@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { create, list } from './link.service.ts'
-import * as repository from '@/repositories/link.repository.ts'
+import * as repository from '../repositories/link.repository.ts'
 
-vi.mock('@/repositories/link.repository.ts', () => ({
+vi.mock('../repositories/link.repository.ts', () => ({
     findBy: vi.fn(),
     insert: vi.fn(),
     findAll: vi.fn()

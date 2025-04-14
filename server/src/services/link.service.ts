@@ -1,15 +1,14 @@
 import { makeLeft, makeRight } from '../shared/either.ts';
 import * as repository from '../repositories/link.repository.ts'
+import { env } from '../env.ts'
 
 import type { Either } from '../shared/either.ts'
 
-// TODO: Insert the domain in the .env file
-const DOMAIN = process.env.APP_DOMAIN || 'https://brev.ly'
 
 export async function create(
     { originalUrl, shortUrlPath }: LinkInsertPayload
 ): Promise<Either<Error, LinkInsertResponse>> {
-    const shortUrl = `${DOMAIN}/${shortUrlPath}`
+    const shortUrl = `${env.APP_DOMAIN}/${shortUrlPath}`
     const existing = await repository.findBy(shortUrl)
 
     if (existing) {
