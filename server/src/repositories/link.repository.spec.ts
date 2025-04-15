@@ -1,11 +1,11 @@
 import { db } from '../db/index.ts'
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { ilike } from 'drizzle-orm'
-import { insert, findAll, findBy } from './link.repository.ts'
+import { insert, findAll, deleteBy, findByShortUrl, findById } from './link.repository.ts'
 import { schema } from '../db/schemas/index.ts'
 
 describe('Link Repository', () => {
-    afterEach(async () => {
+    beforeEach(async () => {
         await db.delete(schema.links);
     })
 
@@ -57,7 +57,7 @@ describe('Link Repository', () => {
 
             await insert(originalUrl, shortUrl)
 
-            const foundLink = await findBy(shortUrl)
+            const foundLink = await findByShortUrl(shortUrl)
 
             expect(foundLink).toBeDefined()
             expect(foundLink?.originalUrl).toBe(originalUrl)
@@ -65,9 +65,44 @@ describe('Link Repository', () => {
         })
 
         it('should return undefined if the short URL does not exist', async () => {
-            const foundLink = await findBy('https://brevly/nonexistent')
+            const foundLink = await findByShortUrl('https://brevly/nonexistent')
+
+            expect(foundLink).toBeUndefined()
+        })
+
+        it('should return a link by its id', async () => {
+            const originalUrl = 'https://example.com'
+            const shortUrl = 'https://brevly/123'
+
+            const { id } = await insert(originalUrl, shortUrl)
+
+            const foundLink = await findById(id)
+
+            expect(foundLink).toBeDefined()
+            expect(foundLink?.originalUrl).toBe(originalUrl)
+            expect(foundLink?.shortUrl).toBe(shortUrl)
+        })
+
+        it('should return undefined if the short URL does not exist', async () => {
+            const foundLink = await findById('mock-uuid')
 
             expect(foundLink).toBeUndefined()
         })
     })
+
+    describe('delete', () => {
+        it('should delete a link by its ID', async () => {
+            const originalUrl = 'https://example.com'
+            const shortUrl = 'https://example.com/123'
+
+            const result = await insert(originalUrl, shortUrl)
+            let insertedLink = await findByShortUrl('https://example.com/123')
+            expect(insertedLink).toBeDefined()
+
+            await deleteBy(result.id)
+            insertedLink = await findByShortUrl('https://example.com/123')
+            expect(insertedLink).toBeUndefined()
+        })
+    }
+    )
 })

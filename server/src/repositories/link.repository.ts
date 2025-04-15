@@ -15,8 +15,18 @@ export async function findAll(): Promise<LinkModel[]> {
     return db.query.links.findMany();
 }
 
-export async function findBy(shortUrl: string): Promise<LinkModel | undefined> {
+export async function findById(id: string): Promise<LinkModel | undefined> {
+    return db.query.links.findFirst({
+        where: eq(schema.links.id, id)
+    })
+}
+
+export async function findByShortUrl(shortUrl: string): Promise<LinkModel | undefined> {
     return db.query.links.findFirst({
         where: eq(schema.links.shortUrl, shortUrl)
     })
+}
+
+export async function deleteBy(id: string): Promise<void> {
+    await db.delete(schema.links).where(eq(schema.links.id, id))
 }
