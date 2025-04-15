@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { db } from '../db/index.ts'
-import { schema } from '../db/schemas/index.ts'
-import { app } from '../server.ts';
+import { db } from '../../db/index.ts'
+import { schema } from '../../db/schemas/index.ts'
+import { app } from '../../server.ts';
 
-describe.concurrent('Link index route', () => {
+describe.concurrent('Link Index route', () => {
     beforeEach(() => {
         return db.delete(schema.links)
     })

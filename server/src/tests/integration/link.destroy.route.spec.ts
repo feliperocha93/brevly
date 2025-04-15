@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeAll, afterEach } from 'vitest'
-import { app } from '../server.ts'
-import { db } from '../db/index.ts'
-import { schema } from '../db/schemas/index.ts'
+import { app } from '../../server.ts'
+import { db } from '../../db/index.ts'
+import { schema } from '../../db/schemas/index.ts'
 import { eq } from 'drizzle-orm'
 
-describe('Link destroy route', () => {
+describe('Link Destroy route', () => {
     beforeAll(async () => {
         await db.delete(schema.links)
     })
