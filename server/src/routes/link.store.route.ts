@@ -7,7 +7,7 @@ import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
 
 const storeLinkInputSchema = z.object({
   originalUrl: z.string().url(),
-  shortUrlPath: z.string().min(1).max(20),
+  shortUrlPath: z.string().min(1).max(20).regex(/^[a-zA-Z0-9_-]+$/),
 })
 
 const storeLinkOutputSchema = z.object({
