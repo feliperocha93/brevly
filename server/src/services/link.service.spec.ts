@@ -1,30 +1,31 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { create, list } from './link.service.ts'
+import { create, list, remove } from './link.service.ts'
 import * as repository from '../repositories/link.repository.ts'
 
 vi.mock('../repositories/link.repository.ts', () => ({
-    findBy: vi.fn(),
     insert: vi.fn(),
-    findAll: vi.fn()
+    findAll: vi.fn(),
+    findByShortUrl: vi.fn(),
+    findById: vi.fn(),
+    deleteBy: vi.fn()
 }))
 
 describe('Link Service', () => {
     const mockLink: LinkModel = {
-        id: 'mock-id',
+        id: 'mock-uuid',
         originalUrl: 'https://example.com',
-        shortUrl: 'https://brev.ly/abc123',
+        shortUrl: 'https://test.brev.ly/abc123',
         createdAt: new Date(),
         accessCount: 0
     }
 
     beforeEach(() => {
         vi.resetAllMocks()
-        process.env.APP_DOMAIN = 'https://brev.ly'
     })
 
     describe('create', () => {
         it('should throw an error when short URL already exists', async () => {
-            vi.mocked(repository.findBy).mockResolvedValue(mockLink)
+            vi.mocked(repository.findByShortUrl).mockResolvedValue(mockLink)
 
             const result = await create({
                 originalUrl: 'https://example.com',
@@ -48,7 +49,7 @@ describe('Link Service', () => {
                 originalUrl: mockLink.originalUrl,
                 shortUrl: mockLink.shortUrl
             })
-            expect(repository.insert).toHaveBeenCalledWith('https://example.com', 'https://brev.ly/abc123')
+            expect(repository.insert).toHaveBeenCalledWith('https://example.com', 'https://test.brev.ly/abc123')
         })
     })
 
@@ -61,5 +62,26 @@ describe('Link Service', () => {
             expect(result.right).toEqual([mockLink])
         })
     })
+
+    describe('remove', () => {
+        it('should throw an error when ID does not exist', async () => {
+            vi.mocked(repository.findById).mockResolvedValue(undefined)
+
+            const result = await remove('mock-uuid')
+
+            expect(result.left).toBeInstanceOf(Error)
+            expect(repository.deleteBy).not.toHaveBeenCalled()
+        })
+
+        it('should remove a link successfully', async () => {
+            vi.mocked(repository.findById).mockResolvedValue(mockLink)
+            vi.mocked(repository.deleteBy).mockResolvedValue(undefined)
+
+            const result = await remove('mock-uuid')
+
+            expect(result.right).toBe(true)
+            expect(repository.deleteBy).toHaveBeenCalledWith('mock-uuid')
+        })
+    });
 
 })

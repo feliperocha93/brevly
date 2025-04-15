@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { app } from '../server.ts'
-import { db } from '../db/index.ts'
-import { schema } from '../db/schemas/index.ts'
-import { env } from '../env.ts'
+import { app } from '../../server.ts'
+import { db } from '../../db/index.ts'
+import { schema } from '../../db/schemas/index.ts'
+import { env } from '../../env.ts'
 
 describe('Link routes', () => {
     beforeEach(() => {

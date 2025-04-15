@@ -9,7 +9,7 @@ export async function create(
     { originalUrl, shortUrlPath }: LinkInsertPayload
 ): Promise<Either<Error, LinkInsertResponse>> {
     const shortUrl = `${env.APP_DOMAIN}/${shortUrlPath}`
-    const existing = await repository.findBy(shortUrl)
+    const existing = await repository.findByShortUrl(shortUrl)
 
     if (existing) {
         // TODO: Create custom error
@@ -28,4 +28,17 @@ export async function create(
 export async function list(): Promise<Either<never, LinkModel[]>> {
     const links = await repository.findAll()
     return makeRight(links)
+}
+
+export async function remove(id: string): Promise<Either<Error, true>> {
+    const existing = await repository.findById(id)
+
+    if (!existing) {
+        // TODO: Create custom error
+        return makeLeft(new Error('ID not found'))
+    }
+
+    repository.deleteBy(id)
+
+    return makeRight(true)
 }
