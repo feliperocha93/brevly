@@ -16,11 +16,11 @@ The project uses different environment files:
 | Update     | `update`   | `update`  | `update`  |
 | Delete     | `delete`   | `delete`  | `destroy` |
 
-## Roadmap
+## Roadmap 🇧🇷
 
 - [x]  Deve ser possível criar um link
     - [x]  Não deve ser possível criar um link com URL encurtada já existente
-    - []  Não deve ser possível criar um link com URL encurtada mal formatada
+    - [x]  Não deve ser possível criar um link com URL encurtada mal formatada
 - [x]  Deve ser possível listar todas as URL’s cadastradas
 - [ ]  Deve ser possível deletar um link
 - [ ]  Deve ser possível obter a URL original por meio de uma URL encurtada
