@@ -7,6 +7,12 @@ on:
     paths:
     - 'server/iac/pulumi/**'
     - '.github/workflows/pulumi-preview.yml'
+  pull_request:
+    branches:
+      - master
+    types: [opened, reopened, synchronize]
+    paths:
+      - .github/workflows/server-build.yml
 
 env:
   app_dir: server/iac/pulumi
