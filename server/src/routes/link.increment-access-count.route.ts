@@ -5,18 +5,19 @@ import { generateLogMessage } from "../shared/logs.ts";
 
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
 
-
-export const destroy: FastifyPluginAsyncZod = async (app) => {
-    app.delete(
-        '/link/:id',
+export const incrementAccessCount: FastifyPluginAsyncZod = async (app) => {
+    app.patch(
+        '/link/:id/increment-access-count',
         {
             schema: {
-                summary: 'Remove a link',
+                summary: 'Increment access count for a link',
                 params: z.object({
                     id: z.string().uuid(),
                 }),
                 response: {
-                    204: z.void(),
+                    200: z.object({
+                        accessCount: z.number().int(),
+                    }),
                     400: z.object({
                         message: z.string(),
                         issues: z.array(z.any()),
@@ -30,11 +31,12 @@ export const destroy: FastifyPluginAsyncZod = async (app) => {
         async (request, reply) => {
             const id = z.string().uuid().parse(request.params.id);
 
-            const result = await service.remove(id);
+            const result = await service.incrementAccessCount(id);
 
             if (isRight(result)) {
-                reply.log.info({}, generateLogMessage(request, 'Link removed successfully', 204));
-                return reply.status(204).send();
+                const accessCount = unwrapEither(result);
+                reply.log.info({ accessCount }, generateLogMessage(request, 'Link access count incremented successfully', 204));
+                return reply.status(200).send({ accessCount });
             }
 
             const error = unwrapEither(result);

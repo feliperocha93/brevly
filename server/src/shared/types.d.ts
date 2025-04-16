@@ -1,5 +1,5 @@
-import { links } from "src/db/schemas/links.ts";
-import { InferSelectModel } from "drizzle-orm";
+import { links } from "../db/schemas/links.ts";
+import { InferSelectModel, InferModelFromColumns, InferSelectViewModel } from "drizzle-orm";
 
 declare global {
     type LinkModel = InferSelectModel<typeof links>;

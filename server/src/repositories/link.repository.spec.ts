@@ -1,7 +1,7 @@
 import { db } from '../db/index.ts'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ilike } from 'drizzle-orm'
-import { insert, findAll, deleteBy, findByShortUrl, findById } from './link.repository.ts'
+import * as repository from './link.repository.ts'
 import { schema } from '../db/schemas/index.ts'
 
 describe('Link Repository', () => {
@@ -14,7 +14,7 @@ describe('Link Repository', () => {
             const originalUrl = 'https://example.com'
             const shortUrl = 'https://brevly/123'
 
-            const insertedLink = await insert(originalUrl, shortUrl)
+            const insertedLink = await repository.insert(originalUrl, shortUrl)
 
             expect(insertedLink.id).toBeDefined()
             expect(insertedLink.originalUrl).toBe(originalUrl)
@@ -37,15 +37,15 @@ describe('Link Repository', () => {
 
             for (const link of links) {
                 // When using insertLink, ensure that the inserted link follows the application's logic with default values
-                await insert(link.originalUrl, link.shortUrl);
+                await repository.insert(link.originalUrl, link.shortUrl);
             }
 
-            const allLinks = await findAll();
+            const allLinks = await repository.findAll();
             expect(allLinks).toHaveLength(links.length);
         });
 
         it('should return an empty array when no links exist', async () => {
-            const allLinks = await findAll();
+            const allLinks = await repository.findAll();
             expect(allLinks).toHaveLength(0);
         });
     });
@@ -55,9 +55,9 @@ describe('Link Repository', () => {
             const originalUrl = 'https://example.com'
             const shortUrl = 'https://brevly/123'
 
-            await insert(originalUrl, shortUrl)
+            await repository.insert(originalUrl, shortUrl)
 
-            const foundLink = await findByShortUrl(shortUrl)
+            const foundLink = await repository.findByShortUrl(shortUrl)
 
             expect(foundLink).toBeDefined()
             expect(foundLink?.originalUrl).toBe(originalUrl)
@@ -65,7 +65,7 @@ describe('Link Repository', () => {
         })
 
         it('should return undefined if the short URL does not exist', async () => {
-            const foundLink = await findByShortUrl('https://brevly/nonexistent')
+            const foundLink = await repository.findByShortUrl('https://brevly/nonexistent')
 
             expect(foundLink).toBeUndefined()
         })
@@ -74,9 +74,9 @@ describe('Link Repository', () => {
             const originalUrl = 'https://example.com'
             const shortUrl = 'https://brevly/123'
 
-            const { id } = await insert(originalUrl, shortUrl)
+            const { id } = await repository.insert(originalUrl, shortUrl)
 
-            const foundLink = await findById(id)
+            const foundLink = await repository.findById(id)
 
             expect(foundLink).toBeDefined()
             expect(foundLink?.originalUrl).toBe(originalUrl)
@@ -84,23 +84,44 @@ describe('Link Repository', () => {
         })
 
         it('should return undefined if the short URL does not exist', async () => {
-            const foundLink = await findById('mock-uuid')
+            const foundLink = await repository.findById('mock-uuid')
 
             expect(foundLink).toBeUndefined()
         })
     })
+
+    describe('incrementAccessCount', () => {
+        it('should increment accessCount by 1', async () => {
+            const originalUrl = 'https://example.com'
+            const shortUrl = 'https://brevly/123'
+
+            const inserted = await repository.insert(originalUrl, shortUrl)
+            expect(inserted.accessCount).toBe(0)
+
+            const response = await repository.incrementAccessCount(inserted.id)
+            const updated = await repository.findById(inserted.id)
+            expect(response).toBe(1)
+            expect(updated?.accessCount).toBe(1)
+
+            const responseAgain = await repository.incrementAccessCount(inserted.id)
+            const updatedAgain = await repository.findById(inserted.id)
+            expect(responseAgain).toBe(2)
+            expect(updatedAgain?.accessCount).toBe(2)
+        })
+    })
+
 
     describe('delete', () => {
         it('should delete a link by its ID', async () => {
             const originalUrl = 'https://example.com'
             const shortUrl = 'https://example.com/123'
 
-            const result = await insert(originalUrl, shortUrl)
-            let insertedLink = await findByShortUrl('https://example.com/123')
+            const result = await repository.insert(originalUrl, shortUrl)
+            let insertedLink = await repository.findByShortUrl('https://example.com/123')
             expect(insertedLink).toBeDefined()
 
-            await deleteBy(result.id)
-            insertedLink = await findByShortUrl('https://example.com/123')
+            await repository.deleteBy(result.id)
+            insertedLink = await repository.findByShortUrl('https://example.com/123')
             expect(insertedLink).toBeUndefined()
         })
     }
