@@ -2,14 +2,14 @@ name: Pulumi Up
 
 on:
   push:
-        branches:
-        - master
-        paths:
-        - 'server/iac/pulumi/**'
-        - '.github/workflows/pulumi-preview.yml'
+    branches:
+    - master
+    paths:
+    - 'server/iac/pulumi/**'
+    - '.github/workflows/pulumi-preview.yml'
 
 env:
-  app_dir: server/src/iac/pulumi
+  app_dir: server/iac/pulumi
 
 jobs:
   up:

@@ -15,7 +15,7 @@ permissions:
   id-token: write
 
 env:
-  app_dir: server/src/iac/pulumi
+  app_dir: server/iac/pulumi
 
 jobs:
   preview:
