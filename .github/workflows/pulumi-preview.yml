@@ -1,4 +1,4 @@
-name: Pulumi PR
+name: Pulumi
 
 on:
     pull_request:
@@ -13,7 +13,7 @@ env:
     app_dir: server/src/iac/pulumi
 
 jobs:
-  update:
+  preview:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -46,3 +46,5 @@ jobs:
         with:
           command: preview
           stack-name: brevly
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
