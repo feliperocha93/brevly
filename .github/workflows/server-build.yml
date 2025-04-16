@@ -1,4 +1,4 @@
-name: "[server]: build"
+name: "Server"
 
 on:
     push:
@@ -7,13 +7,14 @@ on:
       paths:
         - 'server/**'
         - '.github/workflows/server-build.yml'
+      paths-ignore:
+        - 'server/iac/**'
 
 env:
   app_dir: server
 
 jobs:
-  tests:
-    name: Build Server
+  build:
     runs-on: ubuntu-latest
 
     steps:
