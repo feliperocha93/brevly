@@ -41,6 +41,7 @@ jobs:
         run: pnpm install
 
       - name: Check stack
+        working-directory: ${{ env.app_dir }}
         run: pulumi stack ls
 
       - name: Pulumi Preview
@@ -49,5 +50,6 @@ jobs:
         with:
           command: preview
           stack-name: brevly
+          work-dir: ${{ env.app_dir }}
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
