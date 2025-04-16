@@ -15,7 +15,6 @@ describe('Link Destroy route', () => {
 
     it('should delete a link and return 204', async () => {
         const link = { originalUrl: 'https://example1.com', shortUrl: 'https://test.brev.ly/example1' }
-
         const result = await db.insert(schema.links).values(link).returning()
         const id = result[0].id
 
@@ -43,5 +42,17 @@ describe('Link Destroy route', () => {
         expect(response.json()).toEqual({
             error: 'ID not found',
         })
+    })
+
+    it('should return 400 when id is not a valid UUID', async () => {
+        const invalidId = 'not-a-uuid'
+
+        const response = await app.inject({
+            method: 'DELETE',
+            url: `/link/${invalidId}`,
+        })
+
+        expect(response.statusCode).toBe(400)
+        expect(response.json()).toHaveProperty('message', 'Validation error')
     })
 })

@@ -17,6 +17,10 @@ export const destroy: FastifyPluginAsyncZod = async (app) => {
                 }),
                 response: {
                     204: z.void(),
+                    400: z.object({
+                        message: z.string(),
+                        issues: z.array(z.any()),
+                    }),
                     404: z.object({
                         error: z.string(),
                     }),
@@ -29,7 +33,7 @@ export const destroy: FastifyPluginAsyncZod = async (app) => {
             const result = await service.remove(id);
 
             if (isRight(result)) {
-                reply.log.info({ id }, generateLogMessage(request, 'Link removed successfully', 204));
+                reply.log.info({}, generateLogMessage(request, 'Link removed successfully', 204));
                 return reply.status(204).send();
             }
 
