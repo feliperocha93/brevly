@@ -10,7 +10,7 @@ on:
       - '.github/workflows/pulumi-preview.yml'
 
 env:
-  app_dir: server/iac/pulumi
+  app_dir: server/src/iac/pulumi
 
 jobs:
   preview:
