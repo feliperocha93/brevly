@@ -12,7 +12,7 @@ on:
       - master
     types: [opened, reopened, synchronize]
     paths:
-      - .github/workflows/server-build.yml
+      - .github/workflows/pulumi-up.yml
 
 env:
   app_dir: server/iac/pulumi
@@ -45,7 +45,7 @@ jobs:
         working-directory: ${{ env.app_dir }}
         run: pnpm install
 
-      - name: Pulumi Preview
+      - name: Pulumi Up
         id: pulumi-preview
         uses: pulumi/actions@v6
         with:
@@ -54,3 +54,4 @@ jobs:
           work-dir: ${{ env.app_dir }}
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
