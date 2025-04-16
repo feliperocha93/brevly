@@ -43,6 +43,8 @@ jobs:
       - name: Check stack
         working-directory: ${{ env.app_dir }}
         run: pulumi stack ls
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
       - name: Pulumi Preview
         id: pulumi-preview
