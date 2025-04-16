@@ -40,6 +40,9 @@ jobs:
         working-directory: ${{ env.app_dir }}
         run: pnpm install
 
+      - name: Check stack
+        run: pulumi stack ls
+
       - name: Pulumi Preview
         id: pulumi-preview
         uses: pulumi/actions@v6
