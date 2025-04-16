@@ -30,6 +30,20 @@ export async function list(): Promise<Either<never, LinkModel[]>> {
     return makeRight(links)
 }
 
+export async function incrementAccessCount(id: string): Promise<Either<Error, number>> {
+    const existing = await repository.findById(id)
+
+    if (!existing) {
+        // TODO: Create custom error
+        return makeLeft(new Error('ID not found'))
+    }
+
+    const count = await repository.incrementAccessCount(id)
+
+    return makeRight(count)
+}
+
+
 export async function remove(id: string): Promise<Either<Error, true>> {
     const existing = await repository.findById(id)
 

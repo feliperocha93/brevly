@@ -63,6 +63,7 @@ app.register(fastifySwagger, {
 app.register(linkRoute.store)
 app.register(linkRoute.index)
 app.register(linkRoute.destroy)
+app.register(linkRoute.incrementAccessCount)
 
 app.register(scalarUI, {
   routePrefix: "/docs",
