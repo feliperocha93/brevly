@@ -1,13 +1,13 @@
 name: Pulumi
 
 on:
-    pull_request:
-      branches:
-        - master
-      types: [opened, reopened, synchronize]
-      paths:
-        - 'server/iac/pulumi/**'
-        - '.github/workflows/pulumi-preview.yml'
+  pull_request:
+    branches:
+      - master
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'server/iac/pulumi/**'
+      - '.github/workflows/pulumi-preview.yml'
 
 permissions:
   contents: write
@@ -15,7 +15,7 @@ permissions:
   id-token: write
 
 env:
-    app_dir: server/iac/pulumi
+  app_dir: server/iac/pulumi
 
 jobs:
   preview:
