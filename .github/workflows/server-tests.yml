@@ -5,11 +5,10 @@ on:
     branches:
       - master
     types: [opened, reopened, synchronize]
-    paths:
-      - 'server/**'
-      - '.github/workflows/server-tests.yml'
     paths-ignore:
+      - 'web/**'
       - 'server/iac/**'
+      - .github/workflows/pulumi**.yml
 
 # obter do .env.test
 env:

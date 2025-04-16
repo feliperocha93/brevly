@@ -4,11 +4,10 @@ on:
     push:
       branches:
         - master
-      paths:
-        - 'server/**'
-        - '.github/workflows/server-build.yml'
       paths-ignore:
+        - 'web/**'
         - 'server/iac/**'
+        - .github/workflows/pulumi**.yml
 
 env:
   app_dir: server
