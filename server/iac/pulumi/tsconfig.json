@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "strict": true,
-        "outDir": "bin",
+        "outDir": "../../pulumi/pulumi/bin",
         "target": "es2020",
         "module": "commonjs",
         "moduleResolution": "node",
@@ -13,6 +13,6 @@
         "forceConsistentCasingInFileNames": true
     },
     "files": [
-        "index.ts"
+        "../../pulumi/pulumi/index.ts"
     ]
 }
