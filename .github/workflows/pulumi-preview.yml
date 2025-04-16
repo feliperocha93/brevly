@@ -9,11 +9,6 @@ on:
       - 'server/iac/pulumi/**'
       - '.github/workflows/pulumi-preview.yml'
 
-permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
-
 env:
   app_dir: server/iac/pulumi
 
