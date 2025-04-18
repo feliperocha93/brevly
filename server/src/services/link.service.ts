@@ -36,6 +36,11 @@ export async function list(): Promise<Either<never, LinkModel[]>> {
 export async function exportLinks(): Promise<Either<Error, { reportUrl: string }>> {
     const links = await repository.findAll();
 
+    if (links.length === 0) {
+        // TODO: Create custom error
+        return makeLeft(new Error('No links found to export'));
+    }
+
     const formattedLinks = links.map(link => ({
         ...link,
         createdAt: link.createdAt

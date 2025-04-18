@@ -53,17 +53,17 @@ describe('Link Export CSV route', () => {
         expect(uploadCall).toHaveProperty('contentStream')
     })
 
-    it('should export an empty CSV when no links exist', async () => {
+    it('should return an error when no links exist', async () => {
         const response = await app.inject({
             method: 'GET',
             url: '/link/export-csv',
         })
 
-        expect(response.statusCode).toBe(200)
+        expect(response.statusCode).toBe(400)
         const responseBody = JSON.parse(response.body)
-        expect(responseBody).toHaveProperty('reportUrl')
-        expect(responseBody.reportUrl).toBe('https://test-bucket.example.com/exports/report.csv')
+        expect(responseBody).toHaveProperty('error')
+        expect(responseBody.error).toBe('No links found to export')
 
-        expect(storage.uploadFileToStorage).toHaveBeenCalledTimes(1)
+        expect(storage.uploadFileToStorage).not.toHaveBeenCalled()
     })
 })

@@ -1,6 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import * as service from './link.service.ts'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as repository from '../repositories/link.repository.ts'
+import * as service from './link.service.ts'
+import { uploadFileToStorage } from '../storage/upload-file-to-storage.ts'
+
+vi.mock('../storage/upload-file-to-storage.ts', () => ({
+    uploadFileToStorage: vi.fn(),
+}))
 
 vi.mock('../repositories/link.repository.ts', () => ({
     insert: vi.fn(),
@@ -64,6 +69,29 @@ describe('Link Service', () => {
         })
     })
 
+    describe('exportLinks', () => {
+        it('should return an error when no links are found', async () => {
+            vi.mocked(repository.findAll).mockResolvedValue([])
+
+            const result = await service.exportLinks()
+
+            expect(result.left).toBeInstanceOf(Error)
+            expect(result.left?.message).toBe('No links found to export')
+            expect(uploadFileToStorage).not.toHaveBeenCalled()
+        })
+
+        it('should export links successfully when links exist', async () => {
+            vi.mocked(repository.findAll).mockResolvedValue([mockLink])
+            vi.mocked(uploadFileToStorage).mockResolvedValue({
+                url: 'https://test-bucket.example.com/exports/report.csv',
+            })
+
+            const result = await service.exportLinks()
+
+            expect(result.right).toEqual({ reportUrl: 'https://test-bucket.example.com/exports/report.csv' })
+        })
+    })
+
     describe('incrementAccessCount', () => {
         it('should throw an error when ID does not exist', async () => {
             vi.mocked(repository.findById).mockResolvedValue(undefined)
@@ -105,5 +133,4 @@ describe('Link Service', () => {
             expect(repository.deleteBy).toHaveBeenCalledWith('mock-uuid')
         })
     });
-
 })
