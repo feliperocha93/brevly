@@ -29,6 +29,9 @@ importers:
       '@scalar/fastify-api-reference':
         specifier: ^1.28.12
         version: 1.28.14
+      csv-stringify:
+        specifier: ^6.5.2
+        version: 6.5.2
       drizzle-kit:
         specifier: ^0.30.6
         version: 0.30.6
@@ -1745,6 +1748,9 @@ packages:
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
+
+  csv-stringify@6.5.2:
+    resolution: {integrity: sha512-RFPahj0sXcmUyjrObAK+DOWtMvMIFV328n4qZJhgX3x2RqkQgOTU2mCUmiFR0CzM6AzChlRSUErjiJeEt8BaQA==}
 
   dateformat@4.6.3:
     resolution: {integrity: sha512-2P0p0pFGzHS5EMnhdxQi7aJN+iMheud0UhG4dlE1DLAlvL8JHjJJTX/CSm4JXwV0Ka5nGk3zC5mcb5bUQUxxMA==}
@@ -4820,6 +4826,8 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  csv-stringify@6.5.2: {}
 
   dateformat@4.6.3: {}
 

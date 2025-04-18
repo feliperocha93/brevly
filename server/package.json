@@ -32,6 +32,7 @@
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/auto-instrumentations-node": "^0.57.1",
     "@scalar/fastify-api-reference": "^1.28.12",
+    "csv-stringify": "^6.5.2",
     "drizzle-kit": "^0.30.6",
     "drizzle-orm": "^0.41.0",
     "fastify": "^5.2.2",
