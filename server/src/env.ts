@@ -8,6 +8,11 @@ const envSchema = z.object({
     POSTGRES_PASSWORD: z.string(),
     POSTGRES_DB: z.string(),
     DATABASE_URL: z.string().url().startsWith('postgresql://'),
+    CLOUDFLARE_ACCOUNT_ID: z.string(),
+    CLOUDFLARE_ACCESS_KEY_ID: z.string(),
+    CLOUDFLARE_SECRET_ACCESS_KEY: z.string(),
+    CLOUDFLARE_BUCKET_NAME: z.string(),
+    CLOUDFLARE_BUCKET_URL: z.string().url(),
 })
 
 export const env = envSchema.parse(process.env);
