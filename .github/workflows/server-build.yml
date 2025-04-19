@@ -42,6 +42,7 @@ jobs:
 
       - name: Build and push the image to DockerHub
         id: build-push-image
+        working-directory: ${{ github.workspace }}/${{ env.app_dir }}
         env:
           DH_REPOSITORY: ${{ vars.DH_REPOSITORY }}
           IMAGE_TAG: ${{ steps.generate-tag.outputs.sha }}
