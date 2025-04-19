@@ -64,7 +64,6 @@ jobs:
         with:
           context: ${{ github.workspace }}/${{ env.app_dir }}
           file: ${{ github.workspace }}/${{ env.app_dir }}/Dockerfile
-          push: false
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: brevly-server:${{ steps.generate-tag.outputs.sha }}
