@@ -48,5 +48,6 @@ jobs:
           IMAGE_TAG: ${{ steps.generate-tag.outputs.sha }}
         run: |
           docker build -t $DH_REPOSITORY:$IMAGE_TAG .
+          docker tag $DH_REPOSITORY:$IMAGE_TAG $DH_REPOSITORY:latest
           docker push $DH_REPOSITORY:$IMAGE_TAG
           docker push $DH_REPOSITORY:latest
