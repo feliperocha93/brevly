@@ -49,3 +49,4 @@ jobs:
         run: |
           docker build -t $DH_REPOSITORY:$IMAGE_TAG .
           docker push $DH_REPOSITORY:$IMAGE_TAG
+          docker push $DH_REPOSITORY:latest

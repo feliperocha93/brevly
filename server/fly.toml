@@ -1,0 +1,11 @@
+app = "restless-fire-6276"
+primary_region = "ird"
+
+[build]
+  image = "feliperocha93/brevly:latest"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+  cpus = 1
+  cpu_kind = "shared"
