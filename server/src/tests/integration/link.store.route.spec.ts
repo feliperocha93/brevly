@@ -1,8 +1,9 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { app } from '../../server.ts'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { db } from '../../db/index.ts'
 import { schema } from '../../db/schemas/index.ts'
 import { env } from '../../env.ts'
+import { app } from '../../server.ts'
+import { AppErrorCode } from '../../shared/errors.ts'
 
 describe('Link routes', () => {
     beforeEach(() => {
@@ -43,7 +44,7 @@ describe('Link routes', () => {
 
         const responseBody = JSON.parse(response.body)
         expect(response.statusCode).toBe(409)
-        expect(responseBody).toHaveProperty('error', 'Short URL already exists')
+        expect(responseBody).toHaveProperty('error', AppErrorCode.SHORT_URL_ALREADY_EXISTS)
     });
 
     describe('originalUrl validation', () => {
