@@ -4,6 +4,7 @@ import * as service from "../services/link.service.ts";
 import { generateLogMessage } from "../shared/logs.ts";
 
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
+import { AppErrorCode } from "../shared/errors.ts";
 
 const storeLinkInputSchema = z.object({
   originalUrl: z.string().url(),
@@ -51,8 +52,8 @@ export const store: FastifyPluginAsyncZod = async (app) => {
 
       const error = unwrapEither(result);
 
-      switch (error.message) {
-        case 'Short URL already exists':
+      switch (error.code) {
+        case AppErrorCode.SHORT_URL_ALREADY_EXISTS:
           reply.log.warn({
             request: {
               method: request.method,
@@ -61,9 +62,9 @@ export const store: FastifyPluginAsyncZod = async (app) => {
               query: request.query,
               params: request.params,
             }
-          }, generateLogMessage(request, 'Short URL already exists', 409));
+          }, generateLogMessage(request, error.code, 409));
           return reply.status(409).send({
-            error: error.message
+            error: error.code
           });
       }
 

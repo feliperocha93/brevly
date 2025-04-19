@@ -5,18 +5,18 @@ import { makeLeft, makeRight } from '../shared/either.ts';
 import { stringify } from 'csv-stringify';
 import { PassThrough } from 'node:stream';
 import type { Either } from '../shared/either.ts';
+import { AppError, AppErrorCode } from '../shared/errors.ts';
 import { uploadFileToStorage } from '../storage/upload-file-to-storage.ts';
 
 
 export async function create(
     { originalUrl, shortUrlPath }: LinkInsertPayload
-): Promise<Either<Error, LinkInsertResponse>> {
+): Promise<Either<AppError, LinkInsertResponse>> {
     const shortUrl = `${env.APP_DOMAIN}/${shortUrlPath}`
     const existing = await repository.findByShortUrl(shortUrl)
 
     if (existing) {
-        // TODO: Create custom error
-        return makeLeft(new Error('Short URL already exists'))
+        return makeLeft(new AppError(AppErrorCode.SHORT_URL_ALREADY_EXISTS))
     }
 
     const newLink = await repository.insert(originalUrl, shortUrl)
@@ -33,12 +33,11 @@ export async function list(): Promise<Either<never, LinkModel[]>> {
     return makeRight(links)
 }
 
-export async function exportLinks(): Promise<Either<Error, { reportUrl: string }>> {
+export async function exportLinks(): Promise<Either<AppError, { reportUrl: string }>> {
     const links = await repository.findAll();
 
     if (links.length === 0) {
-        // TODO: Create custom error
-        return makeLeft(new Error('No links found to export'));
+        return makeLeft(new AppError(AppErrorCode.NO_LINKS_FOUND));
     }
 
     const formattedLinks = links.map(link => ({
@@ -79,12 +78,11 @@ export async function exportLinks(): Promise<Either<Error, { reportUrl: string }
     return makeRight({ reportUrl: url });
 }
 
-export async function incrementAccessCount(id: string): Promise<Either<Error, number>> {
+export async function incrementAccessCount(id: string): Promise<Either<AppError, number>> {
     const existing = await repository.findById(id)
 
     if (!existing) {
-        // TODO: Create custom error
-        return makeLeft(new Error('ID not found'))
+        return makeLeft(new AppError(AppErrorCode.ID_NOT_FOUND))
     }
 
     const count = await repository.incrementAccessCount(id)
@@ -92,12 +90,11 @@ export async function incrementAccessCount(id: string): Promise<Either<Error, nu
     return makeRight(count)
 }
 
-export async function remove(id: string): Promise<Either<Error, true>> {
+export async function remove(id: string): Promise<Either<AppError, true>> {
     const existing = await repository.findById(id)
 
     if (!existing) {
-        // TODO: Create custom error
-        return makeLeft(new Error('ID not found'))
+        return makeLeft(new AppError(AppErrorCode.ID_NOT_FOUND))
     }
 
     repository.deleteBy(id)

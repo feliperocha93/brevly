@@ -2,6 +2,7 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vite
 import { db } from '../../db/index.ts'
 import { schema } from '../../db/schemas/index.ts'
 import { app } from '../../server.ts'
+import { AppErrorCode } from '../../shared/errors.ts'
 import * as storage from '../../storage/upload-file-to-storage.ts'
 
 vi.mock('../../storage/upload-file-to-storage.ts', () => ({
@@ -62,7 +63,7 @@ describe('Link Export CSV route', () => {
         expect(response.statusCode).toBe(400)
         const responseBody = JSON.parse(response.body)
         expect(responseBody).toHaveProperty('error')
-        expect(responseBody.error).toBe('No links found to export')
+        expect(responseBody.error).toBe(AppErrorCode.NO_LINKS_FOUND)
 
         expect(storage.uploadFileToStorage).not.toHaveBeenCalled()
     })

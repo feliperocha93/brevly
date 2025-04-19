@@ -4,6 +4,7 @@ import { isRight, unwrapEither } from "../shared/either.ts";
 import { generateLogMessage } from "../shared/logs.ts";
 
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
+import { AppErrorCode } from "../shared/errors.ts";
 
 
 export const destroy: FastifyPluginAsyncZod = async (app) => {
@@ -39,17 +40,17 @@ export const destroy: FastifyPluginAsyncZod = async (app) => {
 
             const error = unwrapEither(result);
 
-            switch (error.message) {
-                case 'ID not found':
+            switch (error.code) {
+                case AppErrorCode.ID_NOT_FOUND:
                     reply.log.warn({
                         request: {
                             method: request.method,
                             url: request.url,
                             params: request.params,
                         },
-                    }, generateLogMessage(request, error.message, 404));
+                    }, generateLogMessage(request, error.code, 404));
                     return reply.status(404).send({
-                        error: error.message,
+                        error: error.code,
                     });
             }
         }

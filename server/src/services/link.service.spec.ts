@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as repository from '../repositories/link.repository.ts'
-import * as service from './link.service.ts'
+import { AppErrorCode } from '../shared/errors.ts'
 import { uploadFileToStorage } from '../storage/upload-file-to-storage.ts'
+import * as service from './link.service.ts'
 
 vi.mock('../storage/upload-file-to-storage.ts', () => ({
     uploadFileToStorage: vi.fn(),
@@ -76,7 +77,7 @@ describe('Link Service', () => {
             const result = await service.exportLinks()
 
             expect(result.left).toBeInstanceOf(Error)
-            expect(result.left?.message).toBe('No links found to export')
+            expect(result.left?.code).toBe(AppErrorCode.NO_LINKS_FOUND)
             expect(uploadFileToStorage).not.toHaveBeenCalled()
         })
 

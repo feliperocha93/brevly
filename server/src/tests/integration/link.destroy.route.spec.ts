@@ -1,8 +1,9 @@
-import { describe, it, expect, beforeAll, afterEach } from 'vitest'
-import { app } from '../../server.ts'
+import { eq } from 'drizzle-orm'
+import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 import { db } from '../../db/index.ts'
 import { schema } from '../../db/schemas/index.ts'
-import { eq } from 'drizzle-orm'
+import { app } from '../../server.ts'
+import { AppErrorCode } from '../../shared/errors.ts'
 
 describe('Link Destroy route', () => {
     beforeAll(async () => {
@@ -40,7 +41,7 @@ describe('Link Destroy route', () => {
 
         expect(response.statusCode).toBe(404)
         expect(response.json()).toEqual({
-            error: 'ID not found',
+            error: AppErrorCode.ID_NOT_FOUND,
         })
     })
 

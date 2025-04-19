@@ -4,6 +4,7 @@ import { isRight, unwrapEither } from "../shared/either.ts";
 import { generateLogMessage } from "../shared/logs.ts";
 
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+import { AppErrorCode } from "../shared/errors.ts";
 
 const exportCsvOutputSchema = z.object({
   reportUrl: z.string().url(),
@@ -39,8 +40,8 @@ export const exportCsv: FastifyPluginAsyncZod = async (app) => {
 
       const error = unwrapEither(result);
 
-      switch (error.message) {
-        case 'No links found to export':
+      switch (error.code) {
+        case AppErrorCode.NO_LINKS_FOUND:
           reply.log.warn({
             request: {
               method: request.method,
@@ -48,9 +49,9 @@ export const exportCsv: FastifyPluginAsyncZod = async (app) => {
               query: request.query,
               params: request.params,
             }
-          }, generateLogMessage(request, 'No links found to export', 400));
+          }, generateLogMessage(request, error.code, 400));
           return reply.status(400).send({
-            error: error.message
+            error: error.code
           });
       }
     }

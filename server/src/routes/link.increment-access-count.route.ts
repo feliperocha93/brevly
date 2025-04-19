@@ -1,9 +1,10 @@
-import { z } from "zod"
+import { z } from "zod";
 import * as service from "../services/link.service.ts";
 import { isRight, unwrapEither } from "../shared/either.ts";
 import { generateLogMessage } from "../shared/logs.ts";
 
-import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+import { AppErrorCode } from "../shared/errors.ts";
 
 export const incrementAccessCount: FastifyPluginAsyncZod = async (app) => {
     app.patch(
@@ -35,23 +36,23 @@ export const incrementAccessCount: FastifyPluginAsyncZod = async (app) => {
 
             if (isRight(result)) {
                 const accessCount = unwrapEither(result);
-                reply.log.info({ accessCount }, generateLogMessage(request, 'Link access count incremented successfully', 204));
+                reply.log.info({ accessCount }, generateLogMessage(request, 'Link access count incremented successfully', 200));
                 return reply.status(200).send({ accessCount });
             }
 
             const error = unwrapEither(result);
 
-            switch (error.message) {
-                case 'ID not found':
+            switch (error.code) {
+                case AppErrorCode.ID_NOT_FOUND:
                     reply.log.warn({
                         request: {
                             method: request.method,
                             url: request.url,
                             params: request.params,
                         },
-                    }, generateLogMessage(request, error.message, 404));
+                    }, generateLogMessage(request, error.code, 404));
                     return reply.status(404).send({
-                        error: error.message,
+                        error: error.code,
                     });
             }
         }
