@@ -43,7 +43,7 @@ export function Input({ label, error, value, placeholder, ...props }: InputProps
 
     return (
         <div className="flex flex-col gap-1">
-            {label && <label className="text-sm font-semibold text-gray-500">{label}</label>}
+            {label && <label className="text-xs uppercase font-semibold text-gray-500">{label}</label>}
             <input
                 className={clsx(base, variants[variant][state])}
                 value={value}
