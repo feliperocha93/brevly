@@ -5,7 +5,7 @@ import NotFound from "./pages/NotFound"
 
 export function App() {
   return (
-    <main className='h-dvh flex flex-col items-center justify-center p-10'>
+    <main className='bg-gray-200 min-h-screen'>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/redirect" element={<Redirect />} />

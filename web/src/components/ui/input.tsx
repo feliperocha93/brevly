@@ -16,7 +16,7 @@ export function Input({ label, error, value, placeholder, ...props }: InputProps
             ? "active"
             : "default";
 
-    const base = "w-full px-3 py-2 rounded text-sm outline-none transition";
+    const base = "w-full px-3 py-2 h-12 rounded-lg text-sm outline-none transition placeholder-gray-400 placeholder-text-md";
 
     const variants = {
         empty: {
@@ -42,8 +42,8 @@ export function Input({ label, error, value, placeholder, ...props }: InputProps
     };
 
     return (
-        <div className="flex flex-col gap-1">
-            {label && <label className="text-xs uppercase font-semibold text-gray-500">{label}</label>}
+        <div className="flex flex-col gap-2">
+            {label && <label className="text-xs uppercase text-gray-500">{label}</label>}
             <input
                 className={clsx(base, variants[variant][state])}
                 value={value}

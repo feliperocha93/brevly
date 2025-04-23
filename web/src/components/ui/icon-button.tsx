@@ -1,24 +1,13 @@
-import { clsx } from "clsx";
-import { ButtonHTMLAttributes, ElementType } from "react";
-
-type IconButtonState = "default" | "hover";
+import { ButtonHTMLAttributes } from "react";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    state?: IconButtonState;
-    icon: ElementType;
+    icon: string;
 }
 
-export function IconButton({ state = "default", icon: Icon, ...props }: IconButtonProps) {
-    const baseStyles = "w-8 h-8 flex items-center justify-center rounded";
-
-    const variants = {
-        default: "bg-gray-100 hover:bg-gray-200",
-        hover: "bg-gray-200",
-    };
-
+export function IconButton({ icon, ...props }: IconButtonProps) {
     return (
-        <button className={clsx(baseStyles, variants[state])} {...props}>
-            <Icon className="text-gray-600 w-4 h-4" />
+        <button className="w-8 h-8 flex items-center justify-center rounded-sm bg-gray-200 hover:border hover:border-gray-600" {...props}>
+            <img src={icon} className="text-gray-600 w-4 h-4" />
         </button>
     );
 }
