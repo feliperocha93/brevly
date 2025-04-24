@@ -3,29 +3,29 @@ import logo from "../..//assets/vectors/Logo.svg";
 import { MyLinks } from "./my-links";
 import { NewLink } from "./new-link";
 
-// Interactive
+// Interactive: Estou validando o input, preciso instalar o zod e confirmar se vou seguir a estratégia q est[a l[a]]
 // Conect to back end
 
 const links = [
     {
-        id: 1,
+        id: "mocked-uuid-1",
         original: "https://www.exemplo.com.br",
         shortened: "brev.ly/123456",
         count: 10,
     },
     {
-        id: 2,
+        id: "mocked-uuid-2",
         original: "https://www.exemplo.com.br",
         shortened: "brev.ly/123456",
         count: 10,
     },
     {
-        id: 3,
+        id: "mocked-uuid-3",
         original: "https://www.exemplo.com.br",
         shortened: "brev.ly/123456",
         count: 10,
     }
-]
+];
 
 export default function Home() {
     return (

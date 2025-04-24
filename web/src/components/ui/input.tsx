@@ -1,9 +1,14 @@
 import { clsx } from "clsx";
-import { InputHTMLAttributes, useState, FocusEvent } from "react";
+import { useState } from "react";
+
+import type { FocusEvent, InputHTMLAttributes } from "react";
+import type { FieldError } from "react-hook-form";
+
+import IconWarning from "../../assets/icons/Warning.svg";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
-    error?: string;
+    error?: FieldError;
 }
 
 export function Input({ label, error, value, placeholder, ...props }: InputProps) {
@@ -43,16 +48,23 @@ export function Input({ label, error, value, placeholder, ...props }: InputProps
 
     return (
         <div className="flex flex-col gap-2">
-            {label && <label className="text-xs uppercase text-gray-500">{label}</label>}
+            {label && <label htmlFor={label} className="text-xs uppercase text-gray-500">{label}</label>}
             <input
                 className={clsx(base, variants[variant][state])}
                 value={value}
                 placeholder={placeholder}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+                id={label}
                 {...props}
             />
-            {error && <span className="text-xs text-danger mt-1">⚠️ {error}</span>}
+            {error &&
+                <span className="text-xs text-danger flex items-center gap-1">
+                    {/* TODO: Change SVG import to colorize icons */}
+                    <img src={IconWarning} alt="Warning Icon" className=" text-danger w-3 h-3" />
+                    {error.message}
+                </span>
+            }
         </div>
     );
 }
