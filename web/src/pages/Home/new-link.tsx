@@ -1,20 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-
-const LinkInputSchema = z.object({
-	originalUrl: z.string().url("URL inválida"),
-	shortUrlPath: z
-		.string()
-		.min(1, "Pelo menos 1 caracter")
-		.max(20, "Até 20 caracteres")
-		.regex(/^[a-zA-Z0-9_-]+$/, "Desculpe, apenas letras, números, _ e -"),
-});
-
-type LinkInput = z.infer<typeof LinkInputSchema>;
+import { useCreateLink } from "../../hooks/useCreateLinks";
+import { type LinkInput, LinkInputSchema } from "../../schemas/link-schema";
 
 export function NewLink() {
 	const {
@@ -22,8 +12,10 @@ export function NewLink() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<LinkInput>({ resolver: zodResolver(LinkInputSchema) });
-	// TODO: Implementar a função de criar o link
-	const onSubmit: SubmitHandler<LinkInput> = (data) => console.log(data);
+
+	const { mutate, isPending, isSuccess  } = useCreateLink();
+
+	const onSubmit: SubmitHandler<LinkInput> = (data) => mutate(data);
 
 	return (
 		<div className="bg-white rounded-lg w-full p-6 md:p-8">
