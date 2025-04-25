@@ -3,11 +3,26 @@ import { IconButton } from "../../components/ui/icon-button";
 import IconCopy from "../../assets/icons/Copy.svg";
 import IconTrash from "../../assets/icons/Trash.svg";
 
+import { showToast } from "../../components/toast/index";
+import { useDeleteLink } from "../../hooks/useDeleteLink";
+
+
 type MyLinksItemProps = Link;
+
+function copyShortUrlToClipboard(shortUrl: string) {
+    navigator.clipboard.writeText(shortUrl).then(() => {
+        showToast.success( "Link copiado com sucesso!")
+    }).catch(() => {
+        showToast.error("Erro ao copiar o link")
+    })
+}
+
 
 export function MyLinksItem(
     link: MyLinksItemProps
 ) {
+    const { mutate: deleteLink, isPending: isDeleting } = useDeleteLink();
+
     return (
         <div className="flex justify-between border-t border-t-gray-200 py-3">
             <div className="flex flex-col gap-1">
@@ -18,8 +33,12 @@ export function MyLinksItem(
 
             <div className="flex gap-1 items-center justify-between">
                 <span className="text-sm text-gray-500 mr-3">{link.accessCount} acessos</span>
-                <IconButton icon={IconCopy} />
-                <IconButton icon={IconTrash} />
+                <IconButton icon={IconCopy} onClick={() => copyShortUrlToClipboard(link.shortUrl)}/>
+                <IconButton
+                    icon={IconTrash}
+                    onClick={() => deleteLink(link.id)}
+                    disabled={isDeleting}
+                />
             </div>
         </div>
     )

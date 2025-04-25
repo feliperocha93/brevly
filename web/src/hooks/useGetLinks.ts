@@ -3,7 +3,7 @@ import { api } from "../services/api";
 
 export function useGetLinks() {
 	return useQuery<Link[]>({
-		queryKey: ["links"],
+		queryKey: ["get-links"],
 		queryFn: getLinks,
 	});
 }
