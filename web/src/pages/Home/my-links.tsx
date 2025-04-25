@@ -5,9 +5,13 @@ import { Button } from "../../components/ui/button";
 
 import IconDonwload from "../../assets/icons/DownloadSimple.svg";
 
-export function MyLinks({
-    links
-}: { links: Array<{ id: string; original: string; shortened: string; count: number }> }) {
+interface MyLinksProps {
+    links: Link[];
+}
+
+export function MyLinks(
+    {links}
+: MyLinksProps) {
     return (
         <div className="bg-white w-full rounded-lg flex flex-col gap-4 md:gap-6 p-6 md:p-8">
             <div className="flex items-center justify-between">
@@ -24,9 +28,9 @@ export function MyLinks({
                         <MyLinksItem
                             key={link.id}
                             id={link.id}
-                            original={link.original}
-                            shortened={link.shortened}
-                            count={link.count}
+                            originalUrl={link.originalUrl}
+                            shortUrl={link.shortUrl}
+                            accessCount={link.accessCount}
                         />
                     ))
                 ) : (
