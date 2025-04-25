@@ -5,6 +5,7 @@ import IconTrash from "../../assets/icons/Trash.svg";
 
 import { showToast } from "../../components/toast/index";
 import { useDeleteLink } from "../../hooks/useDeleteLink";
+import { useIncrementLink } from "../../hooks/useIncrementLink";
 
 type MyLinksItemProps = Link;
 
@@ -20,11 +21,20 @@ export function MyLinksItem(
     link: MyLinksItemProps
 ) {
     const { mutate: deleteLink, isPending: isDeleting } = useDeleteLink();
+    const { mutate: incrementAccessCount } = useIncrementLink();
 
     return (
         <div className="flex justify-between border-t border-t-gray-200 py-3">
             <div className="flex flex-col gap-1">
-                <a className="text-md font-semibold text-blue-base" href={link.shortUrl} target="_blank" rel="noreferrer">{link.shortUrl}</a>
+                <a
+                    className="text-md font-semibold text-blue-base"
+                    href={link.shortUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => incrementAccessCount(link.id)}
+                >
+                    {link.shortUrl}
+                </a>
                 <span className="text-sm text-gray-500 max-w-[160px] md:max-w-full truncate">{link.originalUrl}</span>
             </div>
 
