@@ -6,7 +6,6 @@ import IconTrash from "../../assets/icons/Trash.svg";
 import { showToast } from "../../components/toast/index";
 import { useDeleteLink } from "../../hooks/useDeleteLink";
 
-
 type MyLinksItemProps = Link;
 
 function copyShortUrlToClipboard(shortUrl: string) {
@@ -17,7 +16,6 @@ function copyShortUrlToClipboard(shortUrl: string) {
     })
 }
 
-
 export function MyLinksItem(
     link: MyLinksItemProps
 ) {
@@ -26,8 +24,7 @@ export function MyLinksItem(
     return (
         <div className="flex justify-between border-t border-t-gray-200 py-3">
             <div className="flex flex-col gap-1">
-                {/* TODO: should be a link */}
-                <span className="text-md font-semibold text-blue-base">{link.shortUrl}</span>
+                <a className="text-md font-semibold text-blue-base" href={link.shortUrl} target="_blank" rel="noreferrer">{link.shortUrl}</a>
                 <span className="text-sm text-gray-500 max-w-[160px] md:max-w-full truncate">{link.originalUrl}</span>
             </div>
 
