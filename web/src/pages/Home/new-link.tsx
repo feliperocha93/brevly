@@ -39,7 +39,7 @@ export function NewLink() {
 						error={errors.shortUrlPath}
 					/>
 				</div>
-				<Button type="submit" state={isPending ? "disabled" : "default"}>
+				<Button type="submit" disabled={isPending}>
 					Salvar Link
 				</Button>
 			</form>

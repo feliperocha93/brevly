@@ -6,7 +6,6 @@ type ButtonState = "default" | "disabled";
 type ButtonVariant = "primary" | "secondary";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-	state?: ButtonState;
 	variant?: ButtonVariant;
 	asChild?: boolean;
 	children?: ReactNode;
@@ -14,11 +13,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function Button({
 	variant = "primary",
-	state = "default",
 	asChild,
 	children,
 	...props
 }: ButtonProps) {
+	const state: ButtonState = props.disabled ? "disabled" : "default";
+
 	const baseStyles = "rounded-lg font-semibold text-md transition";
 
 	const variants = {
