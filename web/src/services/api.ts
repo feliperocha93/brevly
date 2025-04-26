@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-	// TODO: .ENV
-	baseURL: "https://brevly.onrender.com/", // ou http://localhost:3333
+	baseURL: import.meta.env.VITE_API_URL,
 	headers: {
 		"Content-Type": "application/json",
 	},

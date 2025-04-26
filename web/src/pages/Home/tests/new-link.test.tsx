@@ -1,5 +1,5 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen, waitFor } from "../../../test/test-utils";
 import { NewLink } from "../new-link";
 
 import "@testing-library/jest-dom";
