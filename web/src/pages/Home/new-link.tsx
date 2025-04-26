@@ -13,7 +13,7 @@ export function NewLink() {
 		formState: { errors },
 	} = useForm<LinkInput>({ resolver: zodResolver(LinkInputSchema) });
 
-	const { mutate, isPending, isSuccess  } = useCreateLink();
+	const { mutate, isPending } = useCreateLink();
 
 	const onSubmit: SubmitHandler<LinkInput> = (data) => mutate(data);
 
@@ -39,7 +39,9 @@ export function NewLink() {
 						error={errors.shortUrlPath}
 					/>
 				</div>
-				<Button type="submit">Salvar Link</Button>
+				<Button type="submit" state={isPending ? "disabled" : "default"}>
+					Salvar Link
+				</Button>
 			</form>
 		</div>
 	);
