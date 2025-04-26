@@ -8,6 +8,7 @@ on:
       - 'web/**'
       - 'server/iac/**'
       - .github/workflows/pulumi**.yml
+      - .github/workflows/web**.yml
   pull_request:
     branches:
       - master

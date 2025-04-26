@@ -1,43 +1,48 @@
+import { Slot } from "@radix-ui/react-slot";
 import { clsx } from "clsx";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
+type ButtonState = "default" | "disabled";
 type ButtonVariant = "primary" | "secondary";
-type ButtonState = "default" | "hover" | "disabled";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: ButtonVariant;
-    state?: ButtonState;
-    children: ReactNode;
+	variant?: ButtonVariant;
+	asChild?: boolean;
+	children?: ReactNode;
 }
 
 export function Button({
-    variant = "primary",
-    state = "default",
-    children,
-    ...props
+	variant = "primary",
+	asChild,
+	children,
+	...props
 }: ButtonProps) {
-    const baseStyles = "px-4 py-2 rounded text-white font-semibold text-sm transition";
+	const state: ButtonState = props.disabled ? "disabled" : "default";
 
-    const variants = {
-        primary: {
-            default: "bg-blue-base hover:bg-blue-dark",
-            hover: "bg-blue-dark",
-            disabled: "bg-blue-base opacity-50 cursor-not-allowed",
-        },
-        secondary: {
-            default: "bg-white text-blue-base border border-blue-base hover:bg-blue-100",
-            hover: "bg-blue-100",
-            disabled: "bg-white text-blue-base opacity-50 border border-blue-base cursor-not-allowed",
-        },
-    };
+	const baseStyles = "rounded-lg font-semibold text-md transition";
 
-    return (
-        <button
-            className={clsx(baseStyles, variants[variant][state])}
-            disabled={state === "disabled"}
-            {...props}
-        >
-            {children}
-        </button>
-    );
+	const variants = {
+		primary: {
+			default: "px-4 bg-blue-base h-12 text-white hover:bg-blue-dark",
+			disabled: "px-4 bg-blue-base h-12 opacity-50 cursor-not-allowed",
+		},
+		secondary: {
+			default:
+				"flex gap-2 items-center p-2 bg-gray-200 h-8 text-gray-500 hover:outline hover:outline-blue-base",
+			disabled:
+				"flex gap-2 items-center p-2 bg-gray-200 h-8 text-gray-500 opacity-50 cursor-not-allowed",
+		},
+	};
+
+	const Component = asChild ? Slot : "button";
+
+	return (
+		<Component
+			className={clsx(baseStyles, variants[variant][state])}
+			disabled={state === "disabled"}
+			{...props}
+		>
+			{children}
+		</Component>
+	);
 }

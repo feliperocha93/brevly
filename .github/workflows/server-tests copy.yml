@@ -9,6 +9,7 @@ on:
       - 'web/**'
       - 'server/iac/**'
       - .github/workflows/pulumi**.yml
+      - .github/workflows/web**.yml
 
 # obter do .env.test
 env:
@@ -62,5 +63,5 @@ jobs:
         run: pnpm install
 
       - name: Run tests
-        working-directory: ./server
+        working-directory: ${{ env.app_dir }}
         run: pnpm test
