@@ -30,7 +30,7 @@ export function Button({
 			default:
 				"flex gap-2 items-center p-2 bg-gray-200 h-8 text-gray-500 hover:outline hover:outline-blue-base",
 			disabled:
-				"bg-white text-blue-base opacity-50 border border-blue-base cursor-not-allowed",
+				"flex gap-2 items-center p-2 bg-gray-200 h-8 text-gray-500 opacity-50 cursor-not-allowed",
 		},
 	};
 
