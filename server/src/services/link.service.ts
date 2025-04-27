@@ -1,4 +1,3 @@
-import { env } from '../env.ts';
 import * as repository from '../repositories/link.repository.ts';
 import { makeLeft, makeRight } from '../shared/either.ts';
 
@@ -6,19 +5,18 @@ import { stringify } from 'csv-stringify';
 import { PassThrough } from 'node:stream';
 import type { Either } from '../shared/either.ts';
 import { AppError, AppErrorCode } from '../shared/errors.ts';
+import { buildFullShortUrl, PROTECTED_PATHS } from '../shared/url-utils.ts';
 import { uploadFileToStorage } from '../storage/upload-file-to-storage.ts';
 
 
 export async function create(
     { originalUrl, shortUrlPath }: LinkInsertPayload
 ): Promise<Either<AppError, LinkInsertResponse>> {
-    const shortUrl = `${env.APP_DOMAIN}/${shortUrlPath}`
-
-    const PROTECTED_PATHS = ['url-not-found']
     if (PROTECTED_PATHS.includes(shortUrlPath)) {
         return makeLeft(new AppError(AppErrorCode.PROTECTED_PATH))
     }
 
+    const shortUrl = buildFullShortUrl(shortUrlPath);
     const existing = await repository.findByShortUrl(shortUrl)
     if (existing) {
         return makeLeft(new AppError(AppErrorCode.SHORT_URL_ALREADY_EXISTS))
