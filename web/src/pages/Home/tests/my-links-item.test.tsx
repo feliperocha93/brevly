@@ -21,7 +21,7 @@ beforeEach(() => {
 	vi.clearAllMocks();
 });
 
-describe("MyLinksItem", () => {
+describe("Home Page - MyLinksItem", () => {
 	it("copies the short URL to the clipboard", async () => {
 		Object.assign(navigator, {
 			clipboard: {

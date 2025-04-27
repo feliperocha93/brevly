@@ -1,10 +1,27 @@
-import logoIcon from "../../assets/vectors/Logo_Icon.svg";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import logoIcon from "../../assets/vectors/Logo_Icon.svg";
+import { useGetLinkByShortPath } from "../../hooks/useGetLinkByShortPath";
+import { useIncrementLink } from "../../hooks/useIncrementLink";
+
 
 export default function Redirect() {
     const { path } = useParams<{ path: string }>();
+    const { data, isError } = useGetLinkByShortPath(path as string);
+    const { mutate: incrementLink } = useIncrementLink();
+    const [link, setLink] = useState<Link | null>(null);
 
-    const originalUrl = "https://www.google.com.br/";
+    useEffect(() => {
+        if (data) {
+            setLink(data);
+            incrementLink(data.id);
+            window.location.href = data.originalUrl;
+        }
+
+        if (isError) {
+            window.location.href = "/url-not-found";
+        }
+    }, [data, isError]);
 
     return (
         <div className="flex flex-col justify-center px-3 max-w-xl mx-auto my-auto h-screen">
@@ -20,10 +37,12 @@ export default function Redirect() {
 
                 <p className="text-md text-gray-500 text-center">
                     O link será aberto automaticamente em alguns instantes.
-                    <span className="block mt-1">
-                        Não foi redirecionado?
-                        <a className="text-blue-base underline ml-1" href={originalUrl}>Acesse aqui</a>
-                    </span>
+                    {link && (
+                        <span className="block mt-1">
+                            Não foi redirecionado?
+                            <a className="text-blue-base underline ml-1" href={link.originalUrl}>Acesse aqui</a>
+                        </span>
+                    )}
                 </p>
             </div>
         </div >
