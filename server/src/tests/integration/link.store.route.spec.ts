@@ -47,6 +47,21 @@ describe('Link routes', () => {
         expect(responseBody).toHaveProperty('error', AppErrorCode.SHORT_URL_ALREADY_EXISTS)
     });
 
+    it('should return a forbidden error when short url is protected', async () => {
+        const response = await app.inject({
+            method: 'POST',
+            url: '/link',
+            payload: {
+                originalUrl: 'https://google.com',
+                shortUrlPath: 'url-not-found'
+            }
+        })
+
+        const responseBody = JSON.parse(response.body)
+        expect(response.statusCode).toBe(403)
+        expect(responseBody).toHaveProperty('error', AppErrorCode.PROTECTED_PATH)
+    });
+
     describe('originalUrl validation', () => {
         it('should return a validation error when originalUrl is not a valid url', async () => {
             const response = await app.inject({

@@ -2,6 +2,7 @@ export const AppErrorCode = {
     ID_NOT_FOUND: 'ID_NOT_FOUND',
     SHORT_URL_ALREADY_EXISTS: 'SHORT_URL_ALREADY_EXISTS',
     NO_LINKS_FOUND: 'NO_LINKS_FOUND',
+    PROTECTED_PATH: 'PROTECTED_PATH',
 } as const;
 
 export type AppErrorCodeType = typeof AppErrorCode[keyof typeof AppErrorCode];

@@ -13,8 +13,13 @@ export async function create(
     { originalUrl, shortUrlPath }: LinkInsertPayload
 ): Promise<Either<AppError, LinkInsertResponse>> {
     const shortUrl = `${env.APP_DOMAIN}/${shortUrlPath}`
-    const existing = await repository.findByShortUrl(shortUrl)
 
+    const PROTECTED_PATHS = ['url-not-found']
+    if (PROTECTED_PATHS.includes(shortUrlPath)) {
+        return makeLeft(new AppError(AppErrorCode.PROTECTED_PATH))
+    }
+
+    const existing = await repository.findByShortUrl(shortUrl)
     if (existing) {
         return makeLeft(new AppError(AppErrorCode.SHORT_URL_ALREADY_EXISTS))
     }

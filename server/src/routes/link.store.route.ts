@@ -30,6 +30,9 @@ export const store: FastifyPluginAsyncZod = async (app) => {
             message: z.string(),
             issues: z.array(z.any()),
           }),
+          403: z.object({
+            error: z.string(),
+          }),
           409: z.object({
             error: z.string(),
           }),
@@ -53,6 +56,19 @@ export const store: FastifyPluginAsyncZod = async (app) => {
       const error = unwrapEither(result);
 
       switch (error.code) {
+        case AppErrorCode.PROTECTED_PATH:
+          reply.log.warn({
+            request: {
+              method: request.method,
+              url: request.url,
+              body: request.body,
+              query: request.query,
+              params: request.params,
+            }
+          }, generateLogMessage(request, error.code, 403));
+          return reply.status(403).send({
+            error: error.code
+          });
         case AppErrorCode.SHORT_URL_ALREADY_EXISTS:
           reply.log.warn({
             request: {
