@@ -12,7 +12,9 @@ export async function insert(
 }
 
 export async function findAll(): Promise<LinkModel[]> {
-    return db.query.links.findMany();
+    return db.query.links.findMany({
+        orderBy: (links, { desc }) => [desc(links.createdAt)]
+    });
 }
 
 export async function findById(id: string): Promise<LinkModel | undefined> {
