@@ -10,7 +10,7 @@ vi.mock("../../../hooks/useExportLinks", () => ({
 	}),
 }));
 
-describe("MyLinks", () => {
+describe("Home Page - MyLinks", () => {
 	it("renders the empty state when there are no links", () => {
 		render(<MyLinks links={[]} />);
 

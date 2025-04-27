@@ -23,7 +23,7 @@ beforeEach(() => {
 	vi.clearAllMocks();
 });
 
-describe("NewLink Component", () => {
+describe("Home Page - NewLink", () => {
 	describe("originalUrl", () => {
 		it("shows error when invalid", async () => {
 			render(<NewLink />);
