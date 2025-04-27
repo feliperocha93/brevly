@@ -28,7 +28,7 @@ describe('Link Repository', () => {
     })
 
     describe('findAll', () => {
-        it('should return all links in the database', async () => {
+        it('should return all links in the database sorted by creation date', async () => {
             const links = [
                 { originalUrl: 'https://example1.com', shortUrl: 'https://brevly/123' },
                 { originalUrl: 'https://example2.com', shortUrl: 'https://brevly/456' },
@@ -40,8 +40,14 @@ describe('Link Repository', () => {
                 await repository.insert(link.originalUrl, link.shortUrl);
             }
 
+            const firstInsertedLink = links[0];
+            const lastInsertedLink = links[links.length - 1];
+
             const allLinks = await repository.findAll();
+
             expect(allLinks).toHaveLength(links.length);
+            expect(allLinks[0].originalUrl).toBe(lastInsertedLink.originalUrl);
+            expect(allLinks[2].originalUrl).toBe(firstInsertedLink.originalUrl);
         });
 
         it('should return an empty array when no links exist', async () => {

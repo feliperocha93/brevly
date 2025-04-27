@@ -29,8 +29,8 @@ export async function create(
 }
 
 export async function list(): Promise<Either<never, LinkModel[]>> {
-    const links = await repository.findAll()
-    return makeRight(links)
+    const links = await repository.findAll();
+    return makeRight(links);
 }
 
 export async function exportLinks(): Promise<Either<AppError, { reportUrl: string }>> {
