@@ -36,6 +36,22 @@ export async function list(): Promise<Either<never, LinkModel[]>> {
     return makeRight(links);
 }
 
+export async function getByShortPath(shortUrlPath: string): Promise<Either<AppError, LinkModel>> {
+    const shortUrl = buildFullShortUrl(shortUrlPath);
+    const link = await repository.findByShortUrl(shortUrl);
+
+    console.log({
+        shortUrl,
+        link,
+    })
+
+    if (!link) {
+        return makeLeft(new AppError(AppErrorCode.SHORT_URL_NOT_FOUND));
+    }
+
+    return makeRight(link);
+}
+
 export async function exportLinks(): Promise<Either<AppError, { reportUrl: string }>> {
     const links = await repository.findAll();
 
