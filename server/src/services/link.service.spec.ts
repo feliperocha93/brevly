@@ -31,6 +31,19 @@ describe('Link Service', () => {
     })
 
     describe('create', () => {
+        it('should throw an error when path is protected', async () => {
+            vi.mocked(repository.findByShortUrl).mockResolvedValue(mockLink)
+
+            const result = await service.create({
+                originalUrl: 'https://example.com',
+                shortUrlPath: 'url-not-found'
+            })
+
+            expect(result.left).toBeInstanceOf(Error)
+            expect(result.left?.code).toBe(AppErrorCode.PROTECTED_PATH)
+            expect(repository.insert).not.toHaveBeenCalled()
+        })
+
         it('should throw an error when short URL already exists', async () => {
             vi.mocked(repository.findByShortUrl).mockResolvedValue(mockLink)
 
@@ -40,6 +53,7 @@ describe('Link Service', () => {
             })
 
             expect(result.left).toBeInstanceOf(Error)
+            expect(result.left?.code).toBe(AppErrorCode.SHORT_URL_ALREADY_EXISTS)
             expect(repository.insert).not.toHaveBeenCalled()
         })
 
@@ -100,6 +114,7 @@ describe('Link Service', () => {
             const result = await service.incrementAccessCount('mock-uuid')
 
             expect(result.left).toBeInstanceOf(Error)
+            expect(result.left?.code).toBe(AppErrorCode.ID_NOT_FOUND)
             expect(repository.incrementAccessCount).not.toHaveBeenCalled()
         })
 
@@ -121,6 +136,7 @@ describe('Link Service', () => {
             const result = await service.remove('mock-uuid')
 
             expect(result.left).toBeInstanceOf(Error)
+            expect(result.left?.code).toBe(AppErrorCode.ID_NOT_FOUND)
             expect(repository.deleteBy).not.toHaveBeenCalled()
         })
 
