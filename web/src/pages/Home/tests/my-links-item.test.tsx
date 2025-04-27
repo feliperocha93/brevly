@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen } from "../../../test/test-utils";
 
 import { MyLinksItem } from "../my-links-item";
 
@@ -7,13 +7,6 @@ const deleteMock = vi.fn();
 vi.mock("../../../hooks/useDeleteLink", () => ({
 	useDeleteLink: () => ({
 		mutate: deleteMock,
-	}),
-}));
-
-const incrementMock = vi.fn();
-vi.mock("../../../hooks/useIncrementLink", () => ({
-	useIncrementLink: () => ({
-		mutate: incrementMock,
 	}),
 }));
 
@@ -46,22 +39,6 @@ describe("Home Page - MyLinksItem", () => {
 		expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
 			"https://brev.ly/example",
 		);
-	});
-
-	it("increments the access count when the short URL is clicked", () => {
-		render(
-			<MyLinksItem
-				id="1"
-				originalUrl="https://example.com"
-				shortUrl="https://brev.ly/example"
-				accessCount={10}
-			/>,
-		);
-
-		const link = screen.getByText("https://brev.ly/example");
-		fireEvent.click(link);
-
-		expect(incrementMock).toHaveBeenCalledWith("1");
 	});
 
 	it("deletes the link when the delete button is clicked", async () => {

@@ -8,6 +8,7 @@ import { useDeleteLink } from "../../hooks/useDeleteLink";
 
 type MyLinksItemProps = Link;
 
+// TODO: Remove this function and update tests
 function copyShortUrlToClipboard(shortUrl: string) {
 	navigator.clipboard
 		.writeText(shortUrl)
