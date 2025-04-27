@@ -63,6 +63,7 @@ app.register(fastifySwagger, {
 
 app.register(linkRoute.store)
 app.register(linkRoute.index)
+app.register(linkRoute.showByShortPath)
 app.register(linkRoute.exportCsv)
 app.register(linkRoute.incrementAccessCount)
 app.register(linkRoute.destroy)

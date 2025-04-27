@@ -84,6 +84,25 @@ describe('Link Service', () => {
         })
     })
 
+    describe('getByShortPath', () => {
+        it('should return an error when short URL is not found', async () => {
+            vi.mocked(repository.findByShortUrl).mockResolvedValue(undefined)
+
+            const result = await service.getByShortPath('abc123')
+
+            expect(result.left).toBeInstanceOf(Error)
+            expect(result.left?.code).toBe(AppErrorCode.SHORT_URL_NOT_FOUND)
+        })
+
+        it('should return the link when found', async () => {
+            vi.mocked(repository.findByShortUrl).mockResolvedValue(mockLink)
+
+            const result = await service.getByShortPath('abc123')
+
+            expect(result.right).toEqual(mockLink)
+        })
+    })
+
     describe('exportLinks', () => {
         it('should return an error when no links are found', async () => {
             vi.mocked(repository.findAll).mockResolvedValue([])
