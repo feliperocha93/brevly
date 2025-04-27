@@ -5,7 +5,6 @@ import IconTrash from "../../assets/icons/Trash.svg";
 
 import { showToast } from "../../components/toast/index";
 import { useDeleteLink } from "../../hooks/useDeleteLink";
-import { useIncrementLink } from "../../hooks/useIncrementLink";
 
 type MyLinksItemProps = Link;
 
@@ -22,7 +21,6 @@ function copyShortUrlToClipboard(shortUrl: string) {
 
 export function MyLinksItem(link: MyLinksItemProps) {
 	const { mutate: deleteLink, isPending: isDeleting } = useDeleteLink();
-	const { mutate: incrementAccessCount } = useIncrementLink();
 
 	return (
 		<div className="flex justify-between border-t border-t-gray-200 py-3">
@@ -32,7 +30,6 @@ export function MyLinksItem(link: MyLinksItemProps) {
 					href={link.shortUrl}
 					target="_blank"
 					rel="noreferrer"
-					onClick={() => incrementAccessCount(link.id)}
 				>
 					{link.shortUrl}
 				</a>
