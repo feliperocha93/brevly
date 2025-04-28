@@ -18,7 +18,7 @@ export default function Home() {
                 className="mb-4"
             />
 
-            <div className="flex flex-col md:flex-row gap-5 w-full">
+            <div className="flex flex-col md:flex-row gap-5 w-full items-start">
                 <NewLink />
                 <MyLinks links={links} />
             </div>

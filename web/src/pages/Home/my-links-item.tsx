@@ -27,12 +27,12 @@ export function MyLinksItem(link: MyLinksItemProps) {
 		<div className="flex justify-between border-t border-t-gray-200 py-3">
 			<div className="flex flex-col gap-1">
 				<a
-					className="text-md font-semibold text-blue-base"
+					className="text-md font-semibold text-blue-base max-w-[140px] md:max-w-full text-clip"
 					href={link.shortUrl}
 					target="_blank"
 					rel="noreferrer"
 				>
-					{link.shortUrl}
+					{link.shortUrl.split("/").slice(-1)}
 				</a>
 				<span className="text-sm text-gray-500 max-w-[160px] md:max-w-full truncate">
 					{link.originalUrl}
