@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import logoIcon from "../../assets/vectors/Logo_Icon.svg";
+import logoIcon from "../../assets/Logo_Icon.svg";
 import { useGetLinkByShortPath } from "../../hooks/useGetLinkByShortPath";
 import { useIncrementLink } from "../../hooks/useIncrementLink";
 
