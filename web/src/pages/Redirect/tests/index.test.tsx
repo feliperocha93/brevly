@@ -1,7 +1,7 @@
-import { describe, it, vi, expect, beforeEach, Mock } from "vitest";
+import { type Mock, beforeEach, describe, expect, it, vi } from "vitest";
+import { useGetLinkByShortPath } from "../../../hooks/useGetLinkByShortPath";
 import { render, screen, waitFor } from "../../../test/test-utils";
 import Redirect from "../index";
-import { useGetLinkByShortPath } from "../../../hooks/useGetLinkByShortPath";
 
 
 vi.mock("react-router-dom", async () => {

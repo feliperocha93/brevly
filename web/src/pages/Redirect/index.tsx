@@ -21,7 +21,7 @@ export default function Redirect() {
         if (isError) {
             window.location.href = "/url-not-found";
         }
-    }, [data, isError]);
+    }, [data, isError, incrementLink]);
 
     return (
         <div className="flex flex-col justify-center px-3 max-w-xl mx-auto my-auto h-screen">
