@@ -16,53 +16,72 @@ export function Input({
 	error,
 	value,
 	placeholder,
+	onFocus,
+	onBlur,
 	...props
 }: InputProps) {
 	const [isFocused, setIsFocused] = useState(false);
 
-	const variant = value ? "filled" : "empty";
-	const state = error ? "error" : isFocused ? "active" : "default";
+	const isFilled = !!value;
+	const variant = isFilled ? "filled" : "empty";
+	const state = isFocused ? "active" : error ? "error" : "default";
 
-	const base =
-		"w-full px-3 py-2 h-12 rounded-lg text-sm outline-none transition placeholder-gray-400 placeholder-text-md";
+	const inputBase = "w-full px-3 py-2 h-12 rounded-lg text-sm outline-none transition border placeholder-gray-400 placeholder-text-md text-gray-600";
 
-	const variants = {
+	const inputVariants = {
 		empty: {
-			default: "border border-gray-200 text-gray-600 bg-white",
-			active: "border border-blue-base text-gray-900 bg-white",
-			error: "border border-danger text-danger bg-white",
+			default: "border-gray-300",
+			active: "border-blue-base",
+			error: "border-danger",
 		},
 		filled: {
-			default: "border border-gray-300 text-gray-600 bg-white",
-			active: "border border-blue-base text-gray-900 bg-white",
-			error: "border border-danger text-danger bg-white",
+			default: "border-gray-300",
+			active: "border-blue-base",
+			error: "border-danger",
+		},
+	};
+
+	const labelBase = "text-xs uppercase";
+
+	const labelVariants = {
+		empty: {
+			default: "text-gray-500",
+			active: "text-blue-base",
+			error: "text-danger",
+		},
+		filled: {
+			default: "text-gray-500",
+			active: "text-blue-base",
+			error: "text-danger",
 		},
 	};
 
 	const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
+		onFocus?.(e);
 		setIsFocused(true);
-		props.onFocus?.(e);
 	};
 
 	const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+		onBlur?.(e);
 		setIsFocused(false);
-		props.onBlur?.(e);
 	};
+
+	const inputId = label?.toLowerCase().replace(/\s+/g, "-");
 
 	return (
 		<div className="flex flex-col gap-2">
 			{label && (
-				<label htmlFor={label} className="text-xs uppercase text-gray-500">
+				<label htmlFor={inputId} className={clsx(labelBase, labelVariants[variant][state])}>
 					{label}
 				</label>
 			)}
 			<input
-				className={clsx(base, variants[variant][state])}
+				id={inputId}
+				className={clsx(inputBase, inputVariants[variant][state])}
 				value={value}
 				placeholder={placeholder}
 				onFocus={handleFocus}
 				onBlur={handleBlur}
-				id={label}
 				{...props}
 			/>
 			{error && (
