@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { FocusEvent, InputHTMLAttributes } from "react";
 import type { FieldError } from "react-hook-form";
 
-import IconWarning from "../../assets/icons/Warning.svg";
+import { Warning } from "@phosphor-icons/react"
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
@@ -66,15 +66,10 @@ export function Input({
 				{...props}
 			/>
 			{error && (
-				<span className="text-xs text-danger flex items-center gap-1">
-					{/* TODO: Change SVG import to colorize icons */}
-					<img
-						src={IconWarning}
-						alt="Warning Icon"
-						className=" text-danger w-3 h-3"
-					/>
+				<div className="text-xs text-gray-500 flex items-center gap-2">
+					<Warning size={16} className="text-danger" />
 					{error.message}
-				</span>
+				</div>
 			)}
 		</div>
 	);

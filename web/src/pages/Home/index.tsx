@@ -1,4 +1,4 @@
-import logo from "../../assets/vectors/Logo.svg";
+import logo from "../../assets/Logo.svg";
 
 import { useGetLinks } from "../../hooks/useGetLinks";
 import { MyLinks } from "./my-links";

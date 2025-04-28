@@ -1,10 +1,8 @@
-import { IconButton } from "../../components/ui/icon-button";
-
-import IconCopy from "../../assets/icons/Copy.svg";
-import IconTrash from "../../assets/icons/Trash.svg";
-
 import { showToast } from "../../components/toast/index";
 import { useDeleteLink } from "../../hooks/useDeleteLink";
+
+import { Copy, Trash } from "@phosphor-icons/react";
+import { IconButton } from "../../components/ui/icon-button";
 
 type MyLinksItemProps = Link;
 
@@ -47,12 +45,14 @@ export function MyLinksItem(link: MyLinksItemProps) {
 					{link.accessCount} acessos
 				</span>
 				<IconButton
-					icon={IconCopy}
+					Icon={Copy}
+					alt="Copiar link"
 					onClick={() => copyShortUrlToClipboard(link.shortUrl)}
 					aria-label="Copiar link para a área de transferência"
 				/>
 				<IconButton
-					icon={IconTrash}
+					Icon={Trash}
+					alt="Excluir link"
 					onClick={() => deleteLink(link.id)}
 					disabled={isDeleting}
 					aria-label="Excluir link"
