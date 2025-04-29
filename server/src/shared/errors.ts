@@ -4,6 +4,7 @@ export const AppErrorCode = {
     PROTECTED_PATH: 'PROTECTED_PATH',
     SHORT_URL_ALREADY_EXISTS: 'SHORT_URL_ALREADY_EXISTS',
     SHORT_URL_NOT_FOUND: 'SHORT_URL_NOT_FOUND',
+    CLOUDFLARE_CONFIGURATION_NOT_SET: 'CLOUDFLARE_CONFIGURATION_NOT_SET',
 } as const;
 
 export type AppErrorCodeType = typeof AppErrorCode[keyof typeof AppErrorCode];

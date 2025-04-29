@@ -40,11 +40,6 @@ export async function getByShortPath(shortUrlPath: string): Promise<Either<AppEr
     const shortUrl = buildFullShortUrl(shortUrlPath);
     const link = await repository.findByShortUrl(shortUrl);
 
-    console.log({
-        shortUrl,
-        link,
-    })
-
     if (!link) {
         return makeLeft(new AppError(AppErrorCode.SHORT_URL_NOT_FOUND));
     }
@@ -84,7 +79,7 @@ export async function exportLinks(): Promise<Either<AppError, { reportUrl: strin
     const uploadToStorageStream = new PassThrough();
     csv.pipe(uploadToStorageStream);
 
-    const uploadToStorage = uploadFileToStorage({
+    const uploadToStorage = await uploadFileToStorage({
         contentType: 'text/csv',
         folder: 'exports',
         fileName: `${new Date().toISOString()}`,
@@ -92,9 +87,7 @@ export async function exportLinks(): Promise<Either<AppError, { reportUrl: strin
         contentStream: uploadToStorageStream,
     });
 
-    const { url } = await uploadToStorage;
-
-    return makeRight({ reportUrl: url });
+    return uploadToStorage
 }
 
 export async function incrementAccessCount(id: string): Promise<Either<AppError, number>> {
