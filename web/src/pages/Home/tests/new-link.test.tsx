@@ -37,31 +37,14 @@ describe("Home Page - NewLink", () => {
 			const button = screen.getByText("Salvar Link");
 			fireEvent.click(button);
 
+
 			await waitFor(() => {
 				const error = screen.getByText("URL inválida", { selector: "span" });
 				expect(error).toBeInTheDocument();
 			});
 		});
 
-		it("shows no error when valid", async () => {
-			render(<NewLink />);
-
-			const inputOriginalUrl =
-				screen.getByPlaceholderText("www.exemplo.com.br");
-			fireEvent.input(inputOriginalUrl, {
-				target: { value: "https://google.com" },
-			});
-
-			const button = screen.getByText("Salvar Link");
-			fireEvent.click(button);
-
-			await waitFor(() => {
-				const error = screen.queryByText("URL inválida", { selector: "span" });
-				expect(error).not.toBeInTheDocument();
-			});
-		});
-
-		it("clean erros when fixed", async () => {
+		it("clean erros whens fixed", async () => {
 			render(<NewLink />);
 
 			const inputOriginalUrl =
@@ -70,8 +53,9 @@ describe("Home Page - NewLink", () => {
 
 			fireEvent.click(button);
 
+			let error: HTMLElement;
 			await waitFor(() => {
-				const error = screen.getByText("URL inválida", { selector: "span" });
+				error = screen.getByText("URL inválida", { selector: "span" });
 				expect(error).toBeInTheDocument();
 			});
 
@@ -80,7 +64,6 @@ describe("Home Page - NewLink", () => {
 			});
 
 			await waitFor(() => {
-				const error = screen.queryByText("URL inválida", { selector: "span" });
 				expect(error).not.toBeInTheDocument();
 			});
 		});

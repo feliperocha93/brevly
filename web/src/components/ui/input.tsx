@@ -66,17 +66,15 @@ export function Input({
 		setIsFocused(false);
 	};
 
-	const inputId = label?.toLowerCase().replace(/\s+/g, "-");
-
 	return (
 		<div className="flex flex-col gap-2">
 			{label && (
-				<label htmlFor={inputId} className={clsx(labelBase, labelVariants[variant][state])}>
+				<label htmlFor={label} className={clsx(labelBase, labelVariants[variant][state])}>
 					{label}
 				</label>
 			)}
 			<input
-				id={inputId}
+				id={label}
 				className={clsx(inputBase, inputVariants[variant][state])}
 				value={value}
 				placeholder={placeholder}
@@ -87,7 +85,7 @@ export function Input({
 			{error && (
 				<div className="text-xs text-gray-500 flex items-center gap-2">
 					<Warning size={16} className="text-danger" />
-					{error.message}
+					<span>{error.message}</span>
 				</div>
 			)}
 		</div>
