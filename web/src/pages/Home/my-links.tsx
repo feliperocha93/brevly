@@ -4,7 +4,7 @@ import { MyLinksItem } from "./my-links-item";
 import { Button } from "../../components/ui/button";
 import { useExportLinks } from "../../hooks/useExportLinks";
 
-import IconDonwload from "../../assets/icons/DownloadSimple.svg";
+import { Download } from "@phosphor-icons/react";
 
 interface MyLinksProps {
 	links: Link[];
@@ -23,7 +23,7 @@ export function MyLinks({ links }: MyLinksProps) {
 					disabled={links.length === 0}
 					aria-label="Baixar CSV"
 				>
-					<img src={IconDonwload} alt="Download CSV" className="w-4 h-4" />
+					<Download size={16} className="text-gray-600" />
 					<span>Baixar CSV</span>
 				</Button>
 			</div>

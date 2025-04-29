@@ -37,8 +37,8 @@ describe("Home Page - MyLinks", () => {
 
 		render(<MyLinks links={links} />);
 
-		expect(screen.getByText("https://brev.ly/example")).toBeInTheDocument();
-		expect(screen.getByText("https://brev.ly/another")).toBeInTheDocument();
+		expect(screen.getByText("https://example.com")).toBeInTheDocument();
+		expect(screen.getByText("https://another.com")).toBeInTheDocument();
 	});
 
 	it("keeps export links button disabled when has no links", () => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import logoIcon from "../../assets/vectors/Logo_Icon.svg";
+import logoIcon from "../../assets/Logo_Icon.svg";
 import { useGetLinkByShortPath } from "../../hooks/useGetLinkByShortPath";
 import { useIncrementLink } from "../../hooks/useIncrementLink";
 
@@ -21,7 +21,7 @@ export default function Redirect() {
         if (isError) {
             window.location.href = "/url-not-found";
         }
-    }, [data, isError]);
+    }, [data, isError, incrementLink]);
 
     return (
         <div className="flex flex-col justify-center px-3 max-w-xl mx-auto my-auto h-screen">
