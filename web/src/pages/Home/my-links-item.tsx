@@ -32,7 +32,7 @@ export function MyLinksItem(link: MyLinksItemProps) {
 				>
 					{link.shortUrl.split("/").slice(-1)}
 				</a>
-				<span className="text-sm text-gray-500 max-w-[160px] md:max-w-full truncate">
+				<span className="text-sm text-gray-500 max-w-[160px] md:max-w-[240px] truncate">
 					{link.originalUrl}
 				</span>
 			</div>
