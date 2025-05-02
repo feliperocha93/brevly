@@ -53,7 +53,7 @@ describe("Home Page - MyLinks", () => {
 		expect(exportButton).toBeDisabled();
 	});
 
-	it("donwloads links when button is clicked", () => {
+	it("downloads links when button is clicked", () => {
 		render(
 			<MyLinks
 				links={[
