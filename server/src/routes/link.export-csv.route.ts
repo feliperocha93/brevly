@@ -53,6 +53,11 @@ export const exportCsv: FastifyPluginAsyncZod = async (app) => {
           return reply.status(400).send({
             error: error.code
           });
+        case AppErrorCode.CLOUDFLARE_CONFIGURATION_NOT_SET:
+          reply.log.warn(generateLogMessage(request, error.code, 500));
+          return reply.status(500).send({
+            error: error.code
+          });
       }
     }
   )

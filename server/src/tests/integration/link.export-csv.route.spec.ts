@@ -4,12 +4,14 @@ import { schema } from '../../db/schemas/index.ts'
 import { app } from '../../server.ts'
 import { AppErrorCode } from '../../shared/errors.ts'
 import * as storage from '../../storage/upload-file-to-storage.ts'
+import { makeRight } from '../../shared/either.ts'
+import { uploadFileToStorage } from '../../storage/upload-file-to-storage.ts'
 
 vi.mock('../../storage/upload-file-to-storage.ts', () => ({
     uploadFileToStorage: vi.fn().mockImplementation(() => {
-        return Promise.resolve({
-            url: 'https://test-bucket.example.com/exports/report.csv',
-        })
+        return Promise.resolve(makeRight({
+            reportUrl: 'https://test-bucket.example.com/exports/report.csv',
+        }))
     }),
 }))
 

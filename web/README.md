@@ -1,14 +1,74 @@
-## Roadmap
+# Brevly - Front-End Application 🌐✨
 
-- [x]  Deve ser possível criar um link
-    - [x]  Não deve ser possível criar um link com encurtamento mal formatado
-    - [x]  Não deve ser possível criar um link com encurtamento já existente
-- [x]  Deve ser possível deletar um link
-- [x]  Deve ser possível obter a URL original por meio do encurtamento
-- [x]  Deve ser possível listar todas as URL’s cadastradas
-- [ ]  Deve ser possível incrementar a quantidade de acessos de um link
-- [x]  Deve ser possível baixar um CSV com o relatório dos links criados
-- [x]  É obrigatória a criação de uma aplicação React no formato SPA utilizando o Vite como `bundler`;
-- [x]  Siga o mais fielmente possível o layout do Figma;
-- [x]  Trabalhe com elementos que tragam uma boa experiência ao usuário (`empty state`, ícones de carregamento, bloqueio de ações a depender do estado da aplicação);
-- [x]  Foco na responsividade: essa aplicação deve ter um bom uso tanto em desktops quanto em celulares.
+This is the front-end application for Brevly, a modern URL shortening platform. It provides a user-friendly interface for creating, managing, and analyzing shortened URLs.
+
+## 🛠️ Tech Stack
+
+- **Framework**: React
+- **Bundler**: Vite
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Form**: React Hook Form and Zod
+- **HTTP**: Axios/React Query
+- **Testing**: Vitest
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 23+
+- PNPM package manager (`npm install -g pnpm`)
+
+### Installation
+
+1. Install dependencies:
+```bash
+pnpm install
+```
+
+2. Set up your environment variables:
+```bash
+# create .env file
+VITE_API_URL="http://localhost:3333"
+VITE_APP_DOMAIN="http://localhost:5173"
+```
+
+### Running the Application
+
+Start the development server:
+```bash
+pnpm dev
+```
+
+The application will be available at `http://localhost:5173`.
+
+### 📁 Project Structure
+
+```
+web/
+├── src/                # Source code
+│   ├── assets/         # Vectors
+│   ├── components/     # Reusable UI components
+│   ├── hooks/          # Custom React hooks
+│   ├── pages/          # Application pages
+│   ├── schemas/        # Zod schema to validate
+│   ├── services/       # API service layer
+│   └── tests/          # Test files
+└── ... configuration files
+```
+
+### 🧪 Testing
+
+```bash
+# Run all tests
+pnpm test
+
+# Run integration tests only
+[WIP] pnpm test:integration 🔜
+
+# Run unit tests only
+[WIP] pnpm test:unit 🔜
+
+# Run tests in watch mode during development
+pnpm test:watch
+```

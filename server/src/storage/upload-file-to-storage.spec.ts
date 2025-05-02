@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { env } from '../env.ts'
 import { r2 } from './client.ts'
 import { uploadFileToStorage } from './upload-file-to-storage.ts'
+import { AppErrorCode } from '../shared/errors.ts'
 
 vi.mock('@aws-sdk/lib-storage', () => ({
     Upload: vi.fn().mockImplementation(() => ({
@@ -44,8 +45,8 @@ describe('uploadFileToStorage', () => {
 
         const result = await uploadFileToStorage(input)
 
-        expect(result).toEqual({
-            url: 'https://test-bucket.example.com/exports/testfile.jpg',
+        expect(result.right).toEqual({
+            reportUrl: 'https://test-bucket.example.com/exports/testfile.jpg',
         })
     })
 
@@ -60,9 +61,25 @@ describe('uploadFileToStorage', () => {
 
         const result = await uploadFileToStorage(input)
 
-        expect(result).toEqual({
-            url: 'https://test-bucket.example.com/exports/testfilewithspacesandsymbols.png',
+        expect(result.right).toEqual({
+            reportUrl: 'https://test-bucket.example.com/exports/testfilewithspacesandsymbols.png',
         })
+    })
+
+    it('should return an error if the Cloudflare configuration is not set', async () => {
+        vi.mocked(env).CLOUDFLARE_BUCKET_NAME = ''
+
+        const input = {
+            folder: 'exports' as const,
+            fileName: 'test-file',
+            fileFormat: 'jpg',
+            contentType: 'image/jpeg',
+            contentStream: mockStream,
+        }
+
+        const result = await uploadFileToStorage(input)
+
+        expect(result.left?.code).toEqual(AppErrorCode.CLOUDFLARE_CONFIGURATION_NOT_SET)
     })
 
     it('should throw an error for invalid stream', async () => {
@@ -78,6 +95,7 @@ describe('uploadFileToStorage', () => {
     })
 
     it('should construct the Upload with correct parameters', async () => {
+        vi.mocked(env).CLOUDFLARE_BUCKET_NAME = 'test-bucket'
         const { Upload } = await import('@aws-sdk/lib-storage')
         const input = {
             folder: 'exports' as const,
@@ -93,7 +111,7 @@ describe('uploadFileToStorage', () => {
             client: r2,
             params: {
                 Key: 'exports/testfile.jpg',
-                Bucket: env.CLOUDFLARE_BUCKET_NAME,
+                Bucket: 'test-bucket',
                 Body: mockStream,
                 ContentType: 'image/jpeg',
             },

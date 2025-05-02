@@ -3,6 +3,7 @@ import * as repository from '../repositories/link.repository.ts'
 import { AppErrorCode } from '../shared/errors.ts'
 import { uploadFileToStorage } from '../storage/upload-file-to-storage.ts'
 import * as service from './link.service.ts'
+import { makeRight } from '../shared/either.ts'
 
 vi.mock('../storage/upload-file-to-storage.ts', () => ({
     uploadFileToStorage: vi.fn(),
@@ -116,9 +117,11 @@ describe('Link Service', () => {
 
         it('should export links successfully when links exist', async () => {
             vi.mocked(repository.findAll).mockResolvedValue([mockLink])
-            vi.mocked(uploadFileToStorage).mockResolvedValue({
-                url: 'https://test-bucket.example.com/exports/report.csv',
-            })
+            vi.mocked(uploadFileToStorage).mockResolvedValue(
+                makeRight({
+                    reportUrl: 'https://test-bucket.example.com/exports/report.csv'
+                })
+            )
 
             const result = await service.exportLinks()
 
