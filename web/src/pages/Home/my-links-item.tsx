@@ -3,6 +3,7 @@ import { useDeleteLink } from "@/hooks/useDeleteLink";
 
 import { Copy, Trash } from "@phosphor-icons/react";
 import { IconButton } from "@/components/ui/icon-button";
+import { Tooltip } from "@radix-ui/themes";
 
 type MyLinksItemProps = Link;
 
@@ -32,9 +33,12 @@ export function MyLinksItem(link: MyLinksItemProps) {
 				>
 					{link.shortUrl.split("/").slice(-1)}
 				</a>
-				<span className="text-sm text-gray-500 max-w-[160px] md:max-w-[240px] truncate">
-					{link.originalUrl}
-				</span>
+				<Tooltip content={link.originalUrl} delayDuration={500} side="bottom">
+					<span className="text-sm text-gray-500 max-w-[160px] md:max-w-[240px] truncate">
+						{link.originalUrl}
+					</span>
+				</Tooltip>
+
 			</div>
 
 			<div className="flex gap-1 items-center justify-between">
