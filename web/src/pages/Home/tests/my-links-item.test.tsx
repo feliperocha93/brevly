@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "../../../test/test-utils";
+import { fireEvent, render, screen } from "@/test/test-utils";
 
 import { MyLinksItem } from "../my-links-item";
 
 const deleteMock = vi.fn();
-vi.mock("../../../hooks/useDeleteLink", () => ({
+vi.mock("@/hooks/useDeleteLink", () => ({
 	useDeleteLink: () => ({
 		mutate: deleteMock,
 	}),

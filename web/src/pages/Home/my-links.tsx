@@ -1,8 +1,8 @@
 import { MyLinksEmptyState } from "./my-links-empty-state";
 import { MyLinksItem } from "./my-links-item";
 
-import { Button } from "../../components/ui/button";
-import { useExportLinks } from "../../hooks/useExportLinks";
+import { Button } from "@/components/ui/button";
+import { useExportLinks } from "@/hooks/useExportLinks";
 
 import { Download } from "@phosphor-icons/react";
 

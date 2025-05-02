@@ -1,8 +1,8 @@
-import { showToast } from "../../components/toast/index";
-import { useDeleteLink } from "../../hooks/useDeleteLink";
+import { showToast } from "@/components/toast/index";
+import { useDeleteLink } from "@/hooks/useDeleteLink";
 
 import { Copy, Trash } from "@phosphor-icons/react";
-import { IconButton } from "../../components/ui/icon-button";
+import { IconButton } from "@/components/ui/icon-button";
 
 type MyLinksItemProps = Link;
 

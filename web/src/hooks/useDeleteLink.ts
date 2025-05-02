@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { showToast } from "../components/toast";
-import { api } from "../services/api";
+import { showToast } from "@/components/toast";
+import { api } from "@/services/api";
 
 export function useDeleteLink() {
 	const queryClient = useQueryClient();

@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { useCreateLink } from "../../hooks/useCreateLinks";
-import { type LinkInput, LinkInputSchema } from "../../schemas/link-schema";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useCreateLink } from "@/hooks/useCreateLinks";
+import { type LinkInput, LinkInputSchema } from "@/schemas/link-schema";
 
 export function NewLink() {
 	const {

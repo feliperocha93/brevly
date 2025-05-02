@@ -1,9 +1,9 @@
 import { SpeedInsights } from "@vercel/speed-insights/react"
 import { Route, Routes } from "react-router-dom"
-import { CustomToaster } from "./components/toast/CustomToaster";
-import Home from "./pages/Home"
-import NotFound from "./pages/NotFound"
-import Redirect from "./pages/Redirect"
+import { CustomToaster } from "@/components/toast/CustomToaster";
+import Home from "@/pages/Home"
+import NotFound from "@/pages/NotFound"
+import Redirect from "@/pages/Redirect"
 
 export function App() {
   return (

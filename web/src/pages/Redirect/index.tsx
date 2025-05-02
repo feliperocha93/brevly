@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import logoIcon from "../../assets/Logo_Icon.svg";
-import { useGetLinkByShortPath } from "../../hooks/useGetLinkByShortPath";
-import { useIncrementLink } from "../../hooks/useIncrementLink";
+import logoIcon from "@/assets/Logo_Icon.svg";
+import { useGetLinkByShortPath } from "@/hooks/useGetLinkByShortPath";
+import { useIncrementLink } from "@/hooks/useIncrementLink";
 
 
 export default function Redirect() {

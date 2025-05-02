@@ -1,6 +1,6 @@
-import logo from "../../assets/Logo.svg";
+import logo from "@/assets/Logo.svg";
 
-import { useGetLinks } from "../../hooks/useGetLinks";
+import { useGetLinks } from "@/hooks/useGetLinks";
 import { MyLinks } from "./my-links";
 import { NewLink } from "./new-link";
 

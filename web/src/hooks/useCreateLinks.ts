@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { showToast } from "../components/toast";
-import type { LinkInput } from "../schemas/link-schema";
-import { api } from "../services/api";
+import { showToast } from "@/components/toast";
+import type { LinkInput } from "@/schemas/link-schema";
+import { api } from "@/services/api";
 
 export function useCreateLink() {
 	const queryClient = useQueryClient();
