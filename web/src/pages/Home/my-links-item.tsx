@@ -59,6 +59,7 @@ export function MyLinksItem(link: MyLinksItemProps) {
 					alt="Excluir link"
 					onClick={() => deleteLink(link.id)}
 					disabled={isDeleting}
+					isLoading={isDeleting}
 					aria-label="Excluir link"
 				/>
 			</div>

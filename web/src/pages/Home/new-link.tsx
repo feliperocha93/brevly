@@ -39,10 +39,10 @@ export function NewLink() {
 						error={errors.shortUrlPath}
 					/>
 				</div>
-				<Button type="submit" disabled={isPending}>
+				<Button type="submit" isLoading={isPending} disabled={isPending}>
 					Salvar Link
 				</Button>
 			</form>
-		</div>
+		</div >
 	);
 }

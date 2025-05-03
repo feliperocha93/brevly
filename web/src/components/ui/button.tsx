@@ -1,6 +1,8 @@
 import { Slot } from "@radix-ui/react-slot";
 import { clsx } from "clsx";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
+import { ClipLoader } from "react-spinners";
+
 
 type ButtonState = "default" | "disabled";
 type ButtonVariant = "primary" | "secondary";
@@ -9,15 +11,22 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: ButtonVariant;
 	asChild?: boolean;
 	children?: ReactNode;
+	isLoading?: boolean;
 }
+
+const override: CSSProperties = {
+	margin: "0 auto",
+};
 
 export function Button({
 	variant = "primary",
 	asChild,
 	children,
+	isLoading = false,
+	disabled,
 	...props
 }: ButtonProps) {
-	const state: ButtonState = props.disabled ? "disabled" : "default";
+	const state: ButtonState = disabled ? "disabled" : "default";
 
 	const baseStyles = "rounded-lg font-semibold text-md transition";
 
@@ -42,7 +51,12 @@ export function Button({
 			disabled={state === "disabled"}
 			{...props}
 		>
-			{children}
+			{
+				isLoading ?
+					<ClipLoader size={20} color="white" aria-label="Loading Spinner" cssOverride={override} />
+					:
+					children
+			}
 		</Component>
 	);
 }

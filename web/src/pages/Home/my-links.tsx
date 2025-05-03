@@ -8,10 +8,11 @@ import { Download } from "@phosphor-icons/react";
 
 interface MyLinksProps {
 	links: Link[];
+	isLoadingLinks?: boolean;
 }
 
-export function MyLinks({ links }: MyLinksProps) {
-	const { exportLinks } = useExportLinks();
+export function MyLinks({ links, isLoadingLinks }: MyLinksProps) {
+	const { exportLinks, isLoading } = useExportLinks();
 
 	return (
 		<div className="bg-white w-full rounded-lg flex flex-col gap-4 md:gap-6 p-6 md:p-8">
@@ -20,8 +21,9 @@ export function MyLinks({ links }: MyLinksProps) {
 				<Button
 					variant="secondary"
 					onClick={exportLinks}
-					disabled={links.length === 0}
+					disabled={links.length === 0 || isLoading}
 					aria-label="Baixar CSV"
+					isLoading={isLoading}
 				>
 					<Download size={16} className="text-gray-600" />
 					<span>Baixar CSV</span>
@@ -40,7 +42,7 @@ export function MyLinks({ links }: MyLinksProps) {
 						/>
 					))
 				) : (
-					<MyLinksEmptyState />
+					<MyLinksEmptyState isLoadingLinks={isLoadingLinks} />
 				)}
 			</div>
 		</div>
