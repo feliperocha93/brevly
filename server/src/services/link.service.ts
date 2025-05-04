@@ -109,7 +109,7 @@ export async function remove(id: string): Promise<Either<AppError, true>> {
         return makeLeft(new AppError(AppErrorCode.ID_NOT_FOUND))
     }
 
-    repository.deleteBy(id)
+    await repository.deleteBy(id)
 
     return makeRight(true)
 }
