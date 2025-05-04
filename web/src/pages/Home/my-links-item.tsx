@@ -12,10 +12,10 @@ function copyShortUrlToClipboard(shortUrl: string) {
 	navigator.clipboard
 		.writeText(shortUrl)
 		.then(() => {
-			showToast.success("Link copiado com sucesso!");
+			showToast.success(`Link copiado para o clipboard`, shortUrl);
 		})
 		.catch(() => {
-			showToast.error("Erro ao copiar o link");
+			showToast.error(`Erro ao copiar link`, shortUrl);
 		});
 }
 

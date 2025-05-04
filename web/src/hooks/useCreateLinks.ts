@@ -18,9 +18,10 @@ export function useCreateLink() {
 				queryKey: ["get-links"],
 			});
 		},
-		onError: (error: AxiosError) => {
+		onError: (error: AxiosError, { shortUrlPath }) => {
 			if (error.status === 409) {
-				showToast.error("Essa URL encurtada já existe.");
+				console.log(error)
+				showToast.error("Essa URL encurtada já existe.", shortUrlPath);
 			} else if (error.status === 400) {
 				showToast.error("Erro nos dados enviados.");
 			} else {
