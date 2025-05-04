@@ -1,4 +1,4 @@
-import Icon404 from "../../assets/404.svg"
+import Icon404 from "@/assets/404.svg"
 
 export default function NotFound() {
     return (

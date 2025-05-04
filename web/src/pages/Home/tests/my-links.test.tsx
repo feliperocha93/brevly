@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "../../../test/test-utils";
+import { fireEvent, render, screen } from "@/test/test-utils";
 
 import { MyLinks } from "../my-links";
 
 const exportMock = vi.fn();
-vi.mock("../../../hooks/useExportLinks", () => ({
+vi.mock("@/hooks/useExportLinks", () => ({
 	useExportLinks: () => ({
 		exportLinks: exportMock,
 	}),
@@ -53,7 +53,7 @@ describe("Home Page - MyLinks", () => {
 		expect(exportButton).toBeDisabled();
 	});
 
-	it("donwloads links when button is clicked", () => {
+	it("downloads links when button is clicked", () => {
 		render(
 			<MyLinks
 				links={[

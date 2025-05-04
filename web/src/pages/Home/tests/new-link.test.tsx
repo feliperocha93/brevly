@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, waitFor } from "../../../test/test-utils";
+import { fireEvent, render, screen, waitFor } from "@/test/test-utils";
 import { NewLink } from "../new-link";
 
 import "@testing-library/jest-dom";
@@ -7,7 +7,7 @@ import "@testing-library/jest-dom";
 const mutateMock = vi.fn();
 let isPendingMock = false;
 
-vi.mock("../../../hooks/useCreateLinks", () => {
+vi.mock("@/hooks/useCreateLinks", () => {
 	return {
 		useCreateLink: () => ({
 			mutate: (...args: unknown[]) => {

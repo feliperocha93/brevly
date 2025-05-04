@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "../services/api";
+import { api } from "@/services/api";
 
 export function useGetLinks() {
-	return useQuery<Link[]>({
+	const { data, isLoading } = useQuery<Link[]>({
 		queryKey: ["get-links"],
 		queryFn: getLinks,
 	});
+
+	return { data, isLoading };
 }
 
 const getLinks = async () => {

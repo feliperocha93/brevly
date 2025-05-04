@@ -1,10 +1,23 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "../../../test/test-utils";
+import { fireEvent, render, screen } from "@/test/test-utils";
 
 import { MyLinksItem } from "../my-links-item";
 
+Object.defineProperty(window, "matchMedia", {
+	value: vi.fn().mockImplementation((query) => ({
+		matches: false,
+		media: query,
+		onchange: null,
+		addListener: vi.fn(), // Deprecated
+		removeListener: vi.fn(), // Deprecated
+		addEventListener: vi.fn(),
+		removeEventListener: vi.fn(),
+		dispatchEvent: vi.fn(),
+	})),
+});
+
 const deleteMock = vi.fn();
-vi.mock("../../../hooks/useDeleteLink", () => ({
+vi.mock("@/hooks/useDeleteLink", () => ({
 	useDeleteLink: () => ({
 		mutate: deleteMock,
 	}),
@@ -15,6 +28,7 @@ beforeEach(() => {
 });
 
 describe("Home Page - MyLinksItem", () => {
+
 	it("copies the short URL to the clipboard", async () => {
 		Object.assign(navigator, {
 			clipboard: {
