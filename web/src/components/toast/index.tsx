@@ -1,11 +1,12 @@
 import toast from "react-hot-toast";
 import { CustomToaster } from "./CustomToaster";
-import { ErrorToast } from "./error";
-import { SuccessToast } from "./sucess";
+import { Toast } from "./Toast";
 
 export const showToast = {
-    success: (message: string) => toast.custom(<SuccessToast message={message} />),
-    error: (message: string) => toast.custom(<ErrorToast message={message} />),
+    success: (message: string, data?: string) =>
+        toast.custom(<Toast type="success" message={message} data={data} />),
+    error: (message: string, data?: string) =>
+        toast.custom(<Toast type="error" message={message} data={data} />),
 };
 
 export { CustomToaster };
