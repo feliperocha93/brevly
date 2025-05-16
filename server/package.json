@@ -8,7 +8,7 @@
     "node": ">=23.0.0"
   },
   "scripts": {
-    "dev": "node --experimental-strip-types --watch --no-warnings --env-file .env src/start.ts",
+    "dev": "tsx watch --env-file .env src/start.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:migrate:test": "dotenv -e .env.test drizzle-kit migrate",
@@ -46,6 +46,7 @@
     "@types/node": "^22.14.0",
     "dotenv-cli": "^8.0.0",
     "tsup": "^8.4.0",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.1.1"
