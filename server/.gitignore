@@ -4,3 +4,5 @@ node_modules
 # Migration metadata
 src/db/migrations/meta/*snapshot.json
 .env
+
+.DS_Store

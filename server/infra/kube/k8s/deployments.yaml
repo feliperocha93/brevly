@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: brevly-deployment
+  namespace: brevly
+
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 20% # 20% more than the desired number of replicas
+      maxUnavailable: 20% # 20% less than the desired number of replicas
+  selector:
+    matchLabels:
+      app: brevly-deployment
+  template:
+    metadata:
+      labels:
+        app: brevly-deployment
+    spec:
+      containers:
+      - name: brevly-deployment-container
+        image: feliperocha93/brevly:5c97b3c
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - configMapRef:
+              name: brevly-cm
+          - secretRef:
+              name: brevly-secret
+        ports:
+          - containerPort: 3333
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 3333
+          failureThreshold: 3 # number of failures before marking as failed
+          successThreshold: 1 # number of successes before marking as successful
+          timeoutSeconds: 1 # timeout for the probe in seconds
+          periodSeconds: 10 # period between probes
+          initialDelaySeconds: 10 # delay before the first probe
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3333
+          failureThreshold: 3 # number of failures before marking as failed
+          successThreshold: 1 # number of successes before marking as successful
+          timeoutSeconds: 1 # timeout for the probe in seconds
+          periodSeconds: 15 # period between probes
+          initialDelaySeconds: 15 # delay before the first probe
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3333
+          failureThreshold: 2 # number of failures before marking as failed
+          successThreshold: 1 # number of successes before marking as successful
+          timeoutSeconds: 1 # timeout for the probe in seconds
+          periodSeconds: 15 # period between probes
+          initialDelaySeconds: 15 # delay before the first probe
+        resources: # if not specified, default is nodes to consume all available resources
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 300m
+            memory: 384Mi

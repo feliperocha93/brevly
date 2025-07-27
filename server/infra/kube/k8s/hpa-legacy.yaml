@@ -1,0 +1,16 @@
+# legacy - limited to CPU
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+
+metadata:
+  name: brevly-legacy-hpa
+  namespace: brevly
+
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: brevly-deployment
+  minReplicas: 3
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 75
